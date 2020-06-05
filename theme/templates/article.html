@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+ <div class="row nav">
+     {% if article.back is defined %}
+        <div class="back">
+            <a href="{{ article.back }}">Back</a>
+        </div>
+    {% endif %}
+        <div class="hamburger">
+             <img src="theme/images/hamburger.svg">
+        </div>
+ </div>
+ <div style="clear: both;">
+ <!-- clear the float -->
+
+
+<div class="row">
+ <div class="col-md-8">
+  {{ article.content }}
+ </div>
+  {% if article.tip is defined %}
+    <div class="tip">
+        <p>  
+        {{ article.tip }}
+        </p>
+    </div>
+  {% endif %}
+
+ <!-- Puzzle only zone -->
+{% if article.puzzle_id is defined %}
+
+    {% if article.puzzle_audio is defined %}
+        <audio
+            controls
+            src="/media/{{ article.puzzle_audio }}">
+                Your browser does not support the
+                <code>audio</code> element, please read the transcript instead.
+        </audio>
+    {% else %}
+    <!-- puzzle body will be populated by JS -->
+        <div class="puzzle"></div>
+
+    {% endif %}
+
+    <div class="prompt">
+        <p>{{ article.question_prompt }}</p>
+    </div>
+
+    <div class="solution">
+        <p>Your answer</p>
+        <input id="{{ article.puzzle_id }}" type="{{ article.puzzle_solution_type }}" />
+        <div class="answer"></div>
+    </div>
+
+{% endif %}
+ <!-- end puzzle only zone -->
+
+
+  <a href="{{ article.next }}">
+  <div class="button">
+    <p>{{ article.next_text }}</p>
+  </div>
+  </a>
+
+</div>
+{% endblock %}

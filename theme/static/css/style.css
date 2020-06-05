@@ -1,0 +1,89 @@
+/* Defaults */
+html {
+    font-style: normal;
+    font-weight: normal;
+    color: #000000;
+    font-family: SF Compact Text, sans-serif;
+}
+
+.ui-draggable, .ui-droppable {
+    background-position: top;
+}
+
+
+
+div.hamburger {
+    float: right;
+    padding-right: 1em;
+}
+
+div.back {
+    float: left;
+}
+p.solution-check{
+    display: inline;
+    padding-left: 0.5em;
+    font-size: small;
+
+}
+.success {
+    color: #009D10;
+}
+.failure {
+    color: #D50000;
+}
+
+div.tip {
+    background-color: #E6F4FF;
+}
+div.answer {
+    padding: 2em;
+}
+
+div.button {
+    position: absolute;
+    width: 121px;
+    margin:2em;
+
+    background: #000000;
+}
+.button p {
+    color: #fff;
+    text-align: center;
+    line-height: 0.75em;
+}
+
+
+h1 {
+
+    font-family: Didot, 'Playfair Display', georgia;
+    font-size: 2em;
+    margin-top: 0em;
+}
+
+h3 {
+    font-family: SF Compact Display, 'Bebas Neue';
+    color: #949494;
+    margin-bottom: 0em;
+    font-size: 1em;
+}
+
+
+p {
+    font-size: 1em;
+    line-height: 2em;
+    color: #000000;
+}
+
+div.puzzle {
+    width: 75%;
+}
+
+.slick-prev:hover, .slick-prev:focus, .slick-next:hover, .slick-next:focus {
+    outline: black;
+    color: black;
+}
+
+.slick-prev:before, .slick-next:before {
+    color: black;
+}
