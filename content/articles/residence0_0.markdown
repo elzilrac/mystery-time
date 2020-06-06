@@ -1,5 +1,5 @@
 title: The residence
-slug: story3_0
+slug: residence0_0
 date: 2020-06-04
 back: puzzle2_1.html
 
@@ -10,4 +10,4 @@ Without further ado, you've reached the Varas home. The front door is ajar. Norm
 
 (But really, don't go into peoples' homes without asking, thanks.)
 
-[![Door Onward](/media/door.svg)](/story3_1.html)
+![Door Onward](/media/door.svg)]
