@@ -47,6 +47,38 @@ function attachPuzzle2(){
     });
 }
 
+function attachPuzzle3() {
+    function checkSolution3 () {
+        let solution = 51181;
+        let puzzle_id = 3;
+        let success_msg = "Right on target!"
+        let fail_msg_high = "Overshot the mark."
+        let fail_msg_low = "Not quite."
+        let value = this.value;
+        
+        if(isNaN(value)) {
+            return;  // Not a number, so don't bother
+        }
+
+        let fail_msg = (value > solution ? fail_msg_high: fail_msg_low);
+        let correct_html = "<img src='media/success.svg'><p class='solution-check'>"+success_msg+"</p>";
+        let fail_html = "<img src='media/failure.svg'><p class='solution-check'>"+fail_msg+"</p>";
+
+        $( "div.solution-check" ).replaceWith( '<div class="solution-check"></div>' );
+        if (value == solution) {
+            $('div.solution-check').append(correct_html);
+            $('div.solution-check > p').addClass('success');
+            setUserCompletePuzzle(puzzle_id);
+            // TODO un-grey out 'next question'
+        } else {
+            $('div.solution-check').append(fail_html);
+            $('div.solution-check > p').addClass('failure');
+        }
+    }
+
+    $( "div.solution > input" ).change(checkSolution3);
+}
+
 // Light puzzle (temporarily assigned number '7')
 function attachPuzzle7() {
     const INPUTS = 4;
@@ -65,20 +97,60 @@ function attachPuzzle7() {
         $('#bulb_'+index).attr("src", "/media/light_puzzle7/lightbulb"+lit+".png");
     }
 
+    function checkSolution7(current_switch_state) {
+        if (current_switch_state.every(Boolean)) {
+            let puzzle_id = 7;
+            let success_msg = "You've reached proper <em>Illumination<em>.";
+            let correct_html = "<img src='media/success.svg'><p class='solution-check'>"+success_msg+"</p>";
+            if (!$('div.solution-check > p').length) {
+                // No need to append a million of these
+                $('div.solution-check').append(correct_html);
+                $('div.solution-check > p').addClass('success');
+                setUserCompletePuzzle(puzzle_id);
+            }
+        } else {
+            // clear the success status message
+            if ($('div.solution-check > p').length) {
+                $( "div.solution-check" ).replaceWith( '<div class="solution-check"></div>' );
+            }
+        }
+    }
+
+    function resolve_logic_gates(current_switch_state){
+        // Each light is a logic expression
+        // there is only one combination of the switches that resolves successfully
+        // win condition is 0 1 0 1
+        let a = current_switch_state[0];
+        let b = current_switch_state[1];
+        let c = current_switch_state[2];
+        let d = current_switch_state[3];
+
+        return [
+            Boolean((a^b)|(c^d)),
+            Boolean(d&(!c)),
+            Boolean((b|d)&(!a)),
+            Boolean(d&b),
+        ];
+    }
+
     function blackbox(switch_idx) {
         // First flip the switch
         flip_switch(switch_idx);
 
         // Then get the state of the switches
-        let current_switch_state = $('img.switch').map(function() {
+        var current_switch_state = $('img.switch').map(function() {
             return JSON.parse(this.getAttribute('data-value'));
         }).get();
         // Then calculate the lights
-        let calculated_state = current_switch_state;
+        let calculated_state = resolve_logic_gates(current_switch_state);
+        console.log(calculated_state)
         // Then update the lights
         for (let i = 0; i < calculated_state.length; i++) {
             illuminate_light_index(i, calculated_state[i]);
         }
+        // Check for win conditions
+        console.log(calculated_state);
+        checkSolution7(calculated_state);
     }
     $('div.puzzle-content').append(lights_and_switches_html);
     let default_switch_val = false;
@@ -100,12 +172,12 @@ function attachPuzzle7() {
 const COOKIE_NAME = 'game_data';
 
 function getCookie(key) {
-    let game_data = JSON.loads(Cookies.get(COOKIE_NAME));
+    let game_data = JSON.parse(Cookies.get(COOKIE_NAME));
     return game_data[key];
 }
 
 function setCookie(key, value) {
-    let game_data = JSON.loads(Cookies.get(COOKIE_NAME));
+    let game_data = JSON.parse(Cookies.get(COOKIE_NAME));
     game_data[key] = value;
     Cookies.set(COOKIE_NAME, JSON.stringify(game_data), { expires: 30 });
     return game_data[key];
@@ -132,6 +204,9 @@ $( document ).ready(function() {
     }
     if($("#2").length){
         attachPuzzle2();
+    }
+    if($("#3").length){
+        attachPuzzle3();
     }
     if($("#7").length){
         attachPuzzle7();

@@ -4,4 +4,4 @@ date: 2020-06-04
 
 # Study
 
-![Study scene](/media/Study_1.png)
+![Study scene](/media/Study.png)
