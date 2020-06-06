@@ -11,15 +11,17 @@ function attachPuzzle1 () {
 
         let correct_html = "<img src='media/success.svg'><p class='solution-check'>"+success_msg+"</p>";
         let fail_html = "<img src='media/failure.svg'><p class='solution-check'>"+fail_msg+"</p>";
+        let puzzle_id = 1;
 
-        $( "div.answer" ).replaceWith( '<div class="answer"></div>' );
+        $( "div.solution-check" ).replaceWith( '<div class="solution-check"></div>' );
         if (ui.item.value == solution) {
-            $('div.answer').append(correct_html);
-            $('div.answer > p').addClass('success');
-            // TODO un-grey out 'next question' and set cookie for solved
+            $('div.solution-check').append(correct_html);
+            $('div.solution-check > p').addClass('success');
+            setUserCompletePuzzle(puzzle_id);
+            // TODO un-grey out 'next question'
         } else {
-            $('div.answer').append(fail_html);
-            $('div.answer > p').addClass('failure');
+            $('div.solution-check').append(fail_html);
+            $('div.solution-check > p').addClass('failure');
         }
     }
 
@@ -37,7 +39,7 @@ function attachPuzzle2(){
         <div><img src="/media/puzzle2/img3.png"></div> \
     </div>';
 
-    $('div.puzzle').append(carosel_html);
+    $('div.puzzle-content').append(carosel_html);
     $(function() {
         $('.carosel').slick({
             // Configuration goes here
@@ -45,14 +47,93 @@ function attachPuzzle2(){
     });
 }
 
+// Light puzzle (temporarily assigned number '7')
+function attachPuzzle7() {
+    const INPUTS = 4;
+    let lights_and_switches_html = '\
+    <div class="lights"></div> \
+    <div class="switches"></div> \
+    ';
+    function flip_switch(switch_idx) {
+        element = $('#switch_'+ switch_idx);
+        let current_state = JSON.parse(element.attr('data-value'));
+        element.attr("src", "/media/light_puzzle7/switch_"+!current_state+".png");
+        element.attr("data-value", !current_state);
+    }
+    function illuminate_light_index(index, illuminate) {
+        let lit = (illuminate  ? '_lit' : '');
+        $('#bulb_'+index).attr("src", "/media/light_puzzle7/lightbulb"+lit+".png");
+    }
+
+    function blackbox(switch_idx) {
+        // First flip the switch
+        flip_switch(switch_idx);
+
+        // Then get the state of the switches
+        let current_switch_state = $('img.switch').map(function() {
+            return JSON.parse(this.getAttribute('data-value'));
+        }).get();
+        // Then calculate the lights
+        let calculated_state = current_switch_state;
+        // Then update the lights
+        for (let i = 0; i < calculated_state.length; i++) {
+            illuminate_light_index(i, calculated_state[i]);
+        }
+    }
+    $('div.puzzle-content').append(lights_and_switches_html);
+    let default_switch_val = false;
+    for (let i = 0; i < INPUTS; i++) {
+        $('div.lights').append('<img class="bulb" id="bulb_'+i+'" src="/media/light_puzzle7/lightbulb.png">');
+        // Switch 0 is OFF, 1 is ON
+        $('div.switches').append('<img \
+            class="switch" \
+            id="switch_'+i+'" \
+            data-value="'+default_switch_val+'" \
+            src="/media/light_puzzle7/switch_'+default_switch_val+'.png">'
+        );
+        $('#switch_'+i).click(function(){blackbox(i)});
+    };
+    
+}
+
+// cookie helpers
+const COOKIE_NAME = 'game_data';
+
+function getCookie(key) {
+    let game_data = JSON.loads(Cookies.get(COOKIE_NAME));
+    return game_data[key];
+}
+
+function setCookie(key, value) {
+    let game_data = JSON.loads(Cookies.get(COOKIE_NAME));
+    game_data[key] = value;
+    Cookies.set(COOKIE_NAME, JSON.stringify(game_data), { expires: 30 });
+    return game_data[key];
+}
+
+function resetGameData() {
+    Cookies.remove(COOKIE_NAME);
+}
+
+function setUserCompletePuzzle(puzzle_id) {
+    setCookie(puzzle_id, true);
+}
+
+function checkUserCompletePuzzle(puzzle_id) {
+    return getCookie(puzzle_id) === true;
+}
 
 
 $( document ).ready(function() {
+
     // Attach relevant segments to the puzzles!
     if($("#1").length){
         attachPuzzle1();
     }
     if($("#2").length){
         attachPuzzle2();
+    }
+    if($("#7").length){
+        attachPuzzle7();
     }
 });

@@ -43,3 +43,5 @@ to re-generate what needs regeneration (needed for static assets too).
 [jQuery UI Autocomplete](https://jqueryui.com/autocomplete/) - JS Library for autocomplete
 
 [Slick](https://github.com/kenwheeler/slick/) - JS image carosel library 
+
+[JS Cookie](https://github.com/js-cookie/js-cookie) - JS Cookie interacting library

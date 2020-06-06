@@ -1,10 +1,30 @@
+@font-face {
+font-family: "SF Compact Text Bold";
+font-style: bold;
+src: url("/media/fonts/SF_Compact_Text_Bold/sf-compact-text-bold-webfont.woff2") format("woff2");
+}
+
+@font-face {
+font-family: "SF Compact Text";
+font-style: normal;
+src: url("/media/fonts/SF_Compact_Text_Regular/fontsfree-net-sfcompacttext-regular-webfont.woff2") format("woff2");
+}
+
 /* Defaults */
 html {
     font-style: normal;
     font-weight: normal;
     color: #000000;
-    font-family: SF Compact Text, sans-serif;
+    font-family: 'SF Compact Text', sans-serif;
 }
+
+a:link {
+    color: #4A52FF;
+}
+a:visited {
+    color: #4A52FF;
+}
+
 
 .ui-draggable, .ui-droppable {
     background-position: top;
@@ -42,15 +62,18 @@ div.answer {
 
 div.button {
     position: absolute;
-    width: 121px;
-    margin:2em;
-
+    padding-left: 1.25em;
+    padding-right: 1.25em;
     background: #000000;
 }
 .button p {
     color: #fff;
     text-align: center;
     line-height: 0.75em;
+}
+
+.button.locked {
+    color: #444;
 }
 
 
@@ -62,7 +85,7 @@ h1 {
 }
 
 h3 {
-    font-family: SF Compact Display, 'Bebas Neue';
+    font-family: 'SF Compact Text Bold', 'Bebas Neue';
     color: #949494;
     margin-bottom: 0em;
     font-size: 1em;
@@ -77,6 +100,15 @@ p {
 
 div.puzzle {
     width: 75%;
+}
+
+img.bulb {
+    width:25%;
+}
+img.switch {
+    width: 15%;
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 .slick-prev:hover, .slick-prev:focus, .slick-next:hover, .slick-next:focus {

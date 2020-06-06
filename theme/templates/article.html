@@ -2,6 +2,7 @@
 
 
 {% block content %}
+<!-- begin content section -->
  <div class="row nav">
      {% if article.back is defined %}
         <div class="back">
@@ -12,14 +13,17 @@
              <img src="theme/images/hamburger.svg">
         </div>
  </div>
- <div style="clear: both;">
+ <div style="clear: both;"></div>
  <!-- clear the float -->
+ <!-- end of nav section -->
+ 
 
-
-<div class="row">
+<!-- begin content section -->
+<div class="row content">
  <div class="col-md-8">
   {{ article.content }}
  </div>
+
   {% if article.tip is defined %}
     <div class="tip">
         <p>  
@@ -27,42 +31,53 @@
         </p>
     </div>
   {% endif %}
+</div>
+<!-- end content section -->
+
 
  <!-- Puzzle only zone -->
 {% if article.puzzle_id is defined %}
+    <!-- begin puzzle section -->
+    <div class="row puzzle" id="{{ article.puzzle_id }}">
 
-    {% if article.puzzle_audio is defined %}
-        <audio
-            controls
-            src="/media/{{ article.puzzle_audio }}">
-                Your browser does not support the
-                <code>audio</code> element, please read the transcript instead.
-        </audio>
-    {% else %}
-    <!-- puzzle body will be populated by JS -->
-        <div class="puzzle"></div>
+        {% if article.puzzle_audio is defined %}
+            <audio
+                class="mejs__player"
+                controls
+                src="/media/{{ article.puzzle_audio }}">
+                    Your browser does not support the
+                    <code>audio</code> element, please read the transcript instead.
+            </audio>
+        {% else %}
+        <!-- puzzle content will be populated by JS -->
+            <div class="puzzle-content"></div>
 
-    {% endif %}
+        {% endif %}
 
-    <div class="prompt">
-        <p>{{ article.question_prompt }}</p>
+        <div class="prompt">
+            <p>{{ article.question_prompt }}</p>
+        </div>
+
+        {% if article.puzzle_solution_type != 'action' %}
+            <div class="solution">
+                <p>Your answer</p>
+                <input type="{{ article.puzzle_solution_type }}" />
+                <div class="solution-check"></div> <!-- Div where the JS displays if user's solution is correct or not -->
+            </div>
+        {% endif %}
+
     </div>
-
-    <div class="solution">
-        <p>Your answer</p>
-        <input id="{{ article.puzzle_id }}" type="{{ article.puzzle_solution_type }}" />
-        <div class="answer"></div>
-    </div>
-
+    <!-- end puzzle section -->
 {% endif %}
  <!-- end puzzle only zone -->
 
+{% if article.next is defined %}
+      <a href="{{ article.next }}">
+      <div class="button">
+        <p>{{ article.next_text }}</p>
+      </div>
+      </a>
 
-  <a href="{{ article.next }}">
-  <div class="button">
-    <p>{{ article.next_text }}</p>
-  </div>
-  </a>
-
-</div>
+    </div>
+{% endif %}
 {% endblock %}
