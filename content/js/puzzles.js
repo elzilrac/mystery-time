@@ -168,6 +168,21 @@ function attachPuzzle7() {
     
 }
 
+// Overlays
+function popUpOverlay(title, subtitle, body, next=null, next_text='Continue Exploring') {
+
+    function removeOverlay() {$('div.overlay-bg').remove()}
+    let overlay = $('div.content').append('<div class="overlay-fg"></div>');
+
+    let fg_div = document.createElement( "div" );
+    fg_div.setAttribute('class', 'overlay-fg');
+    $(fg_div).append('<div class="nav"></div>');
+    $(fg_div).append('<h2>'+subtitle+'</h2>');
+    $(fg_div).append('<h1>'+title+'</h1>');
+
+}
+
+
 // cookie helpers
 const COOKIE_NAME = 'game_data';
 
@@ -195,8 +210,48 @@ function checkUserCompletePuzzle(puzzle_id) {
     return getCookie(puzzle_id) === true;
 }
 
+function do_unlock(room_name){
+    let elem = $('div.'+room_name);
+    elem.empty(); // Remove the lock image
+    elem.removeClass('locked');
+    elem.addClass('unlocked');
+    elem.wrap('<a href="/'+room_name+'0_0.html"></a>');
+    elem.append('<p>'+room_name.toUpperCase()+'</p>')
+}
+function unlockMapSections(){
+    // The first unlock is the study and the foyer
+    // if (checkUserCompletePuzzle(2)) {
+    if (true){
+        do_unlock('foyer');
+        do_unlock('study');
+    }
+    // Other cases TODO
+}
+
+function updateMap(){
+    // The map unlocks sections
+    // Highlights which room you are in
+    // Renders/hides the tooltip
+    // And shows clues
+}
+
 
 $( document ).ready(function() {
+    // Attach map opening JS
+    $( "#map" ).dialog({
+        autoOpen: false,
+        width: 280,
+        position: { my: "right top", at: "right top", of: window },
+        closeOnEscape: true,
+        draggable: false,
+        resizable: true,
+        modal: false,
+
+    });
+    $('a[href*=map]').click(function() {
+        $( "#map" ).dialog( "open" );
+    });
+    unlockMapSections();
 
     // Attach relevant segments to the puzzles!
     if($("#1").length){

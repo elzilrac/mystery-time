@@ -10,4 +10,4 @@ Without further ado, you've reached the Varas home. The front door is ajar. Norm
 
 (But really, don't go into peoples' homes without asking, thanks.)
 
-![Door Onward](/media/door.svg)]
+![Door Onward](/media/door.svg)
