@@ -42,6 +42,19 @@ a:visited {
     background-position: top;
 }
 
+div.container {
+    /* Outermost div of whole app */
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1em;
+}
+
+input[type=text] {
+    border: 1px solid #000;
+    height: 1.5em;
+    padding: 0.5em;
+    width: 100%;
+}
 
 
 div.hamburger {
@@ -74,11 +87,20 @@ div.answer {
     padding: 2em;
 }
 
+
+div.next {
+    text-align: center;
+    padding:1em;
+}
+
 div.button {
-    position: absolute;
+    width: fit-content;
     padding-left: 1.25em;
     padding-right: 1.25em;
+    padding-top:0.1em;
+    padding-bottom:0.1em;
     background: #000000;
+    margin: 0 auto;
 }
 .button p {
     color: #fff;

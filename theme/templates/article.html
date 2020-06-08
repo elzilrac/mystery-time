@@ -61,7 +61,11 @@
             <div class="solution">
             {% if article.puzzle_solution_type != 'action' %}
                 <p>Your answer</p>
-                <input type="{{ article.puzzle_solution_type }}" />
+                <input type="{{ article.puzzle_solution_type }}" 
+                    {% if article.puzzle_solution_placeholder is defined %}
+                        placeholder="{{article.puzzle_solution_placeholder}}"
+                    {% endif %}
+                />
             {% endif %}
                 <div class="solution-check"></div> <!-- Div where the JS displays if user's solution is correct or not -->
             </div>
@@ -72,6 +76,7 @@
  <!-- end puzzle only zone -->
 
 {% if article.next is defined %}
+   <div class="row next">
       <a href="{{ article.next }}">
       <div class="button">
         <p>{{ article.next_text }}</p>

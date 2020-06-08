@@ -7,6 +7,7 @@ next_text: Next Question
 puzzle_id: 1
 puzzle_audio: intro_puzzle1_audio.mp3
 puzzle_solution_type: text
+puzzle_solution_placeholder: Enter station name
 question_prompt: "I'll get off at this station..."
 
 ### Audio Puzzle

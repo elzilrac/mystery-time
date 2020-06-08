@@ -6,6 +6,7 @@ next: residence0_0.html
 next_text: Next Question
 puzzle_id: 2
 puzzle_solution_type: text
+puzzle_solution_placeholder: Enter directions
 
 ### Puzzle
 # Her last appearance
