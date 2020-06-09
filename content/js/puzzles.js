@@ -168,17 +168,27 @@ function attachPuzzle7() {
     
 }
 
-// Overlays
-function popUpOverlay(title, subtitle, body, next=null, next_text='Continue Exploring') {
 
-    function removeOverlay() {$('div.overlay-bg').remove()}
-    let overlay = $('div.content').append('<div class="overlay-fg"></div>');
+// Attach the "click map" to a nav room image
+function clickMap(room_name){
+    var img = new Image();
+    var canvas = document.createElement('canvas');
+    img.onload = function() {
+        canvas.width = this.width;
+        canvas.height = this.height;
+        canvas.getContext('2d').drawImage(this, 0, 0, this.width, this.height);
+    };
+    img.src = '/media/'+room_name+'_click_map.png';
 
-    let fg_div = document.createElement( "div" );
-    fg_div.setAttribute('class', 'overlay-fg');
-    $(fg_div).append('<div class="nav"></div>');
-    $(fg_div).append('<h2>'+subtitle+'</h2>');
-    $(fg_div).append('<h1>'+title+'</h1>');
+    $('img').on("click", function(e) {
+        var offset = $(this).offset();
+        var X = (e.pageX - offset.left);
+        var Y = (e.pageY - offset.top);
+
+        var pixelData = canvas.getContext('2d').getImageData(X, Y, 1, 1).data;
+        console.log(pixelData)
+
+    })
 
 }
 
@@ -252,6 +262,10 @@ $( document ).ready(function() {
         $( "#map" ).dialog( "open" );
     });
     unlockMapSections();
+
+    if ($('img.click-map')) {
+        clickMap($('img.click-map').attr('data-attribute'));
+    }
 
     // Attach relevant segments to the puzzles!
     if($("#1").length){

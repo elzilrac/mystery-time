@@ -59,7 +59,7 @@
         </div>
 
             <div class="solution">
-            {% if article.puzzle_solution_type != 'action' %}
+            {% if article.puzzle_solution_type not in ('action', 'reward') %}
                 <p>Your answer</p>
                 <input type="{{ article.puzzle_solution_type }}" 
                     {% if article.puzzle_solution_placeholder is defined %}
