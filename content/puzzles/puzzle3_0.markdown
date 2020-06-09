@@ -5,6 +5,9 @@ back: foyer0_0.html
 puzzle_id: 3
 puzzle_solution_type: text
 question_prompt: Enter the 5-digit code:
+next_text: Open the box!
+next: puzzle3_1.html
+
 
 ### Puzzle
 # It's a match!

@@ -1,5 +1,5 @@
 
-// Puzzle 1
+// Puzzle 1 - SOLVABLE
 function attachPuzzle1 () {
     // Contains all the variables of puzzle1 so as not to sully the global scope
     let station_names = ["Acton Town", "Aldgate", "Aldgate East", "Alperton", "Amersham", "Angel", "Archway", "Arnos Grove", "Arsenal", "Baker Street", "Balham", "Bank", "Barbican", "Barking", "Barkingside", "Barons Court", "Bayswater", "Becontree", "Belsize Park", "Bermondsey", "Bethnal Green", "Blackfriars", "Blackhorse Road", "Bond Street", "Borough", "Boston Manor", "Bounds Green", "Bow Road", "Brent Cross", "Brixton", "Bromley-by-Bow", "Buckhurst Hill", "Burnt Oak", "Caledonian Road", "Camden Town", "Canada Water", "Canary Wharf", "Canning Town", "Cannon Street", "Canons Park", "Chalfont & Latimer", "Chalk Farm", "Chancery Lane", "Charing Cross", "Chesham", "Chigwell", "Chiswick Park", "Chorleywood", "Clapham Common", "Clapham North", "Clapham South", "Cockfosters", "Colindale", "Colliers Wood", "Covent Garden", "Croxley", "Dagenham East", "Dagenham Heathway", "Debden", "Dollis Hill", "Ealing Broadway", "Ealing Common", "Earl's Court", "East Acton", "East Finchley", "East Ham", "East Putney", "Eastcote", "Edgware", "Edgware Road", "Edgware Road", "Elephant & Castle", "Elm Park", "Embankment", "Epping", "Euston", "Euston Square", "Fairlop", "Farringdon", "Finchley Central", "Finchley Road", "Finsbury Park", "Fulham Broadway", "Gants Hill", "Gloucester Road", "Golders Green", "Goldhawk Road", "Goodge Street", "Grange Hill", "Great Portland Street", "Greenford", "Green Park", "Gunnersbury", "Hainault", "Hammersmith", "Hammersmith", "Hampstead", "Hanger Lane", "Harlesden", "Harrow & Wealdstone", "Harrow-on-the-Hill", "Hatton Cross", "Heathrow Terminals 2 & 3", "Heathrow Terminal 4", "Heathrow Terminal 5", "Hendon Central", "High Barnet", "Highbury & Islington", "Highgate", "High Street Kensington", "Hillingdon", "Holborn", "Holland Park", "Holloway Road", "Hornchurch", "Hounslow Central", "Hounslow East", "Hounslow West", "Hyde Park Corner", "Ickenham", "Kennington", "Kensal Green", "Kensington (Olympia)", "Kentish Town", "Kenton", "Kew Gardens", "Kilburn", "Kilburn Park", "Kingsbury", "King's Cross St Pancras", "Knightsbridge", "Ladbroke Grove", "Lambeth North", "Lancaster Gate", "Latimer Road", "Leicester Square", "Leyton", "Leytonstone", "Liverpool Street", "London Bridge", "Loughton", "Maida Vale", "Manor House", "Mansion House", "Marble Arch", "Marylebone", "Mile End", "Mill Hill East", "Monument", "Moorgate", "Moor Park", "Morden", "Mornington Crescent", "Neasden", "Newbury Park", "North Acton", "North Ealing", "North Greenwich", "North Harrow", "North Wembley", "Northfields", "Northolt", "Northwick Park", "Northwood", "Northwood Hills", "Notting Hill Gate", "Oakwood", "Old Street", "Osterley", "Oval", "Oxford Circus", "Paddington", "Paddington", "Park Royal", "Parsons Green", "Perivale", "Piccadilly Circus", "Pimlico", "Pinner", "Plaistow", "Preston Road", "Putney Bridge", "Queen's Park", "Queensbury", "Queensway", "Ravenscourt Park", "Rayners Lane", "Redbridge", "Regent's Park", "Richmond", "Rickmansworth", "Roding Valley", "Royal Oak", "Ruislip", "Ruislip Gardens", "Ruislip Manor", "Russell Square", "St. James's Park", "St. John's Wood", "St. Paul's", "Seven Sisters", "Shepherd's Bush", "Shepherd's Bush Market", "Sloane Square", "Snaresbrook", "South Ealing", "South Harrow", "South Kensington", "South Kenton", "South Ruislip", "South Wimbledon", "South Woodford", "Southfields", "Southgate", "Southwark", "Stamford Brook", "Stanmore", "Stepney Green", "Stockwell", "Stonebridge Park", "Stratford", "Sudbury Hill", "Sudbury Town", "Swiss Cottage", "Temple", "Theydon Bois", "Tooting Bec", "Tooting Broadway", "Tottenham Court Road", "Tottenham Hale", "Totteridge & Whetstone", "Tower Hill", "Tufnell Park", "Turnham Green", "Turnpike Lane", "Upminster", "Upminster Bridge", "Upney", "Upton Park", "Uxbridge", "Vauxhall", "Victoria", "Walthamstow Central", "Wanstead", "Warren Street", "Warwick Avenue", "Waterloo", "Watford", "Wembley Central", "Wembley Park", "West Acton", "West Brompton", "West Finchley", "West Ham", "West Hampstead", "West Harrow", "West Kensington", "West Ruislip", "Westbourne Park", "Westminster", "White City", "Whitechapel", "Willesden Green", "Willesden Junction", "Wimbledon", "Wimbledon Park", "Wood Green", "Wood Lane", "Woodford", "Woodside Park"];
@@ -31,7 +31,7 @@ function attachPuzzle1 () {
     });
 }
 
-
+// Puzzle 2 - SOLVABLE, clues BROKEN
 function attachPuzzle2(){
     let carosel_html = '<div class="carosel"> \
         <div><img src="/media/puzzle2/img1.png"></div> \
@@ -45,8 +45,33 @@ function attachPuzzle2(){
             // Configuration goes here
         });
     });
+
+    function checkSolution () {
+        let solution = 'cross the park';
+        let puzzle_id = 2;
+        let success_msg = "You've got it!"
+        let fail_msg = "Hmm... that's not quite right."
+        let value = this.value.toLowerCase();
+
+        let correct_html = "<img src='media/success.svg'><p class='solution-check'>"+success_msg+"</p>";
+        let fail_html = "<img src='media/failure.svg'><p class='solution-check'>"+fail_msg+"</p>";
+
+        $( "div.solution-check" ).replaceWith( '<div class="solution-check"></div>' );
+        if (value == solution) {
+            $('div.solution-check').append(correct_html);
+            $('div.solution-check > p').addClass('success');
+            setUserCompletePuzzle(puzzle_id);
+            // TODO un-grey out 'next question'
+        } else {
+            $('div.solution-check').append(fail_html);
+            $('div.solution-check > p').addClass('failure');
+        }
+    }
+
+    $( "div.solution > input" ).change(checkSolution);
 }
 
+// Puzzle 3 - SOLVABLE
 function attachPuzzle3() {
     function checkSolution3 () {
         let solution = 51181;
@@ -79,9 +104,57 @@ function attachPuzzle3() {
     $( "div.solution > input" ).change(checkSolution3);
 }
 
+// Puzzle 4 - SOLVABLE
+function attachPuzzle4(){
+    const COLORS = { // The tea colors and the solution!
+        'black': '100',
+        'green': '080',
+        'white': '085',
+    };
+
+    function checkSolution(){
+        let NEEDED_MATCHES = 3;  // Number of entries in colors
+        let puzzle_id = 4;
+        let correct_html = "<img src='media/success.svg'>"
+        let fail_html = "<img src='media/failure.svg'>";
+        var total_matches = 0;
+        $( "input.tea-puzzle" ).each(function( index ) {
+            if(this.value) {
+                let c = $(this).attr('data-attribute');
+                $( 'div.solution-check[data-attribute="'+c+'"]' ).replaceWith( '<div class="solution-check" data-attribute="'+c+'"></div>' );
+                if (this.value == COLORS[c]) {
+                    total_matches += 1; // this references total_matches defined ABOVE
+                    $('div.solution-check[data-attribute="'+c+'"]').append(correct_html);
+                } else {
+                    $('div.solution-check[data-attribute="'+c+'"]').append(fail_html);
+                }
+            }
+        });
+
+        if (total_matches == NEEDED_MATCHES) {
+            setUserCompletePuzzle(puzzle_id)
+        };
+    }
+
+    for (var color in COLORS) {
+        if(COLORS.hasOwnProperty(color)){
+            $('div.puzzle-content').append('<div><img \
+                class="bulb" \
+                src="/media/puzzle4/'+color+'_light.png"> \
+                <input class="tea-puzzle" data-attribute="'+color+'" type="text" placeholder="000"></input> \
+                <div class="solution-check" data-attribute="'+color+'"></div> \
+                </div>'
+            );
+        }
+    $('input').change(checkSolution);
+    };
+
+}
+
+// Puzzle 5 - SOLVABLE
 function attachPuzzle5() {
     function checkSolution () {
-        let solution = 'soho bee';
+        let solution = 'bee soho';
         let puzzle_id = 5;
         let success_msg = "You're in!"
         let fail_msg = "Hmm don't think that's it."
@@ -104,7 +177,7 @@ function attachPuzzle5() {
     $( "div.solution > input" ).change(checkSolution);
 }
 
-// Light puzzle (temporarily assigned number '7')
+// Light puzzle 7 - SOLVABLE
 function attachPuzzle7() {
     const INPUTS = 4;
     let lights_and_switches_html = '\
@@ -418,12 +491,18 @@ const discoveries = {
         ],
         '0030ff': [ //  under the bed
             {
+                'title': 'Cozy bed',
+                'text': "<p>What a nicely made bed.</p>",
+                'next_text': "Continue Exploring",
+            },
+            {
                 'name': '4.0 interact under the bed',
+                // TODO: requires puzzle5.0 to unlock
                 'title': 'Another...key.',
                 'text': "<p>Well, this wasn't a very secure location. Guess this goes to the drawer next to the bed.</p>",
                 // TODO: unlock drawer next to the bed
                 'next_text': "Continue Exploring",
-            }
+            },
         ],
         'ae00ff': [  // drawer
             {
@@ -531,22 +610,25 @@ const discoveries = {
 const UNLOCKS = {
     // all of the rooms have to be unlocked
     access: [
-        'foyer_drawer',  // solve puzzle 3.0
+        'foyer_drawer',  // solve puzzle 3.0 // DONE
         'bedroom_drawer', // find key under the bed
-        'bedroom_underbed', // solve puzzle 5.0
-        'secret',  // solve light puzzle
+        'bedroom', // solve puzzle 4.0 // DONE
+        'bedroom_underbed', // solve puzzle 5.0 // DONE
+        'secret',  // solve light puzzle7.0  // DONE
         'library',  // find a key in the foyer
-        'bedroom',  // unlocks with tea temperature puzzle
-        'foyer', // unlocked by doing intro puzzles
-        'study',
+        'bedroom',  // unlocks with tea temperature puzzle4.0 - DONE
+        'foyer', // unlocked by doing intro puzzles2.0 // DONE
+        'study', // unlocked by doing intro puzzles // DONE
     ],
     cards : {
         'sun': 'The Sun',
+        tower: 'The Tower',  // DONE (ish, double check right card)
         temperance: 'Temperance',
         chariot: 'The Chariot',
-        tower: 'The Tower',
     }
 };
+
+const ROOMS = ['secret', 'bedroom', 'library', 'foyer', 'study'];
 
 
 // cookie helpers
@@ -558,7 +640,7 @@ function getCookie(key) {
 }
 
 function setCookie(key, value) {
-    let game_data = JSON.parse(Cookies.get(COOKIE_NAME));
+    let game_data = (Cookies.get(COOKIE_NAME) ? JSON.parse(Cookies.get(COOKIE_NAME)) : {});
     game_data[key] = value;
     Cookies.set(COOKIE_NAME, JSON.stringify(game_data), { expires: 30 });
     return game_data[key];
@@ -568,8 +650,28 @@ function resetGameData() {
     Cookies.remove(COOKIE_NAME);
 }
 
+function setUserUnlock(unlock_name) {
+    setCookie(unlock_name, true);
+}
+
+function checkUserUnlock(unlock_name) {
+    return getCookie(unlock_name) === true;
+}
+
 function setUserCompletePuzzle(puzzle_id) {
     setCookie(puzzle_id, true);
+    let associated_unlocks = {
+        2 : ['foyer', 'study'],
+        3 : ['foyer_drawer'],
+        4 : ['bedroom', 'tower'], // TODO tarot card 2... so might switch this from tower
+        5 : ['bedroom_underbed'],
+        7 : ['secret'],
+    }
+    if (typeof(associated_unlocks[puzzle_id] != 'undefined')) {
+        for (let i = 0; i < associated_unlocks[puzzle_id].length; i++) {
+            setUserUnlock(associated_unlocks[puzzle_id][i]);
+        }
+    }
 }
 
 function checkUserCompletePuzzle(puzzle_id) {
@@ -585,16 +687,20 @@ function do_unlock(room_name){
     elem.append('<p>'+room_name.toUpperCase()+'</p>')
 }
 function unlockMapSections(){
-    // The first unlock is the study and the foyer
-    // if (checkUserCompletePuzzle(2)) {
-    if (true){
-        do_unlock('foyer');
-        do_unlock('study');
-        do_unlock('library');
-        do_unlock('bedroom');
-        do_unlock('secret');
+    // fake unlock code
+    // if (true){
+    //     do_unlock('foyer');
+    //     do_unlock('study');
+    //     do_unlock('library');
+    //     do_unlock('bedroom');
+    //     do_unlock('secret');
+    // }
+    // The ACTUAL unlock code
+    for (let i = 0; i < ROOMS.length; i++) {
+        if (checkUserUnlock(ROOMS[i])) {
+            do_unlock(ROOMS[i]);
+        }
     }
-    // Other cases TODO
 }
 
 function updateMap(){
@@ -636,6 +742,9 @@ $( document ).ready(function() {
     }
     if($("#3").length){
         attachPuzzle3();
+    }
+    if($("#4").length){
+        attachPuzzle4();
     }
     if($("#5").length){
         attachPuzzle5();
