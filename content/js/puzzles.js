@@ -180,16 +180,126 @@ function clickMap(room_name){
     };
     img.src = '/media/'+room_name+'_click_map.png';
 
+    function componentToHex(c) {
+        var hex = c.toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+    }
+
+    function rgbToHex(r, g, b) {
+        return componentToHex(r) + componentToHex(g) + componentToHex(b);
+    }
+
     $('img').on("click", function(e) {
         var offset = $(this).offset();
         var X = (e.pageX - offset.left);
         var Y = (e.pageY - offset.top);
 
         var pixelData = canvas.getContext('2d').getImageData(X, Y, 1, 1).data;
-        console.log(pixelData)
-
+        var hex = rgbToHex(pixelData[0], pixelData[1], pixelData[2]);
+        console.log(hex);
+        pickDiscovery(room_name, hex);
     })
 
+}
+
+function pickDiscovery(room_name, hex) {
+    if (discoveries[room_name][hex].length == 1){
+        // simple case, just trigger!
+        $( "#"+hex+'_0' ).dialog( "open" );
+    } else {
+        // TODO... case by case logic I guess :mystery:
+    }
+}
+
+function populateDiscoveries(room_name){
+    let hints = $('body').append("<div class='hints'</div'>");
+    let room_discoveries = discoveries[room_name];
+
+    for(var hex in room_discoveries){
+
+        if(room_discoveries.hasOwnProperty(hex)){
+            for (var i = 0; i < room_discoveries[hex].length; i++) {
+                console.log(hex)
+                console.log(room_discoveries[hex]);
+                let discovery = room_discoveries[hex][i];
+                console.log(discovery)
+                let discovery_id = hex + '_' + i;
+                hints.append('<div id="'+discovery_id+'"></div>');
+                let outer_html = $('#'+discovery_id);
+                outer_html.append('<h3>Discovery</h3>');
+                outer_html.append('<h1>'+discovery['title']+'</h1>');
+                outer_html.append('<div>'+discovery['text']+'</div>');
+                
+                outer_html.append('<div class="button"><p>'+discovery['next_text']+'</p></div>');
+
+                let button = $($('#'+discovery_id).children('div.button')[0]);
+                
+                if (discovery['next']){
+                    button.wrap('<a href="/'+discovery['next']+'"></a>');
+                }
+
+                $( "#"+discovery_id ).dialog({
+                    autoOpen: false,
+                    modal: true,
+                });
+                button.click(function(){ $( "#"+discovery_id ).dialog( "close" );})
+            }
+        }
+
+    }
+
+}
+
+
+const discoveries = {
+    'foyer': {
+        'a8ff00': [{
+            'name': 'foyer 1.0 interact book',
+            'title': 'A mysterious book',
+            'text': '<p>A suspicious-looking guestbook is on the console table.</p><p>You seem to think that shaking it is a good idea, and it seems to work in your favor: a barely-legible <em>tarot card</em> gently drifts to the ground.</p>',
+            'next_text': 'Continue Exploring',
+        }],
+        '00eeff': [{
+            'name': '2.0 interact drawer (no key)',
+            'title': "A locked drawer",
+            'text': "<p>Since you're a detective, it's in your nature to snoop. You try to open the drawer, but it’s locked.</p><p>There must be a <em>key</em> here somewhere.</p>",
+            'next_text': 'Continue Exploring',
+        },
+        {
+            'name': '2.1 interact drawer (key)',
+            'title': "An unlocked drawer",
+            'text': "...TODO",
+            'next_text': 'Continue Exploring',
+        }],
+        'ff0000': [{
+            'name': '3.0 interact plant',
+            'title': 'A peaceful plant',
+            'text': "<p>You notice something that looks not quite like soil or the <em>peace lilies</em> that are growing in the pot — in fact, it's glinting.</p><p>You pick up a tiny box with a combination lock. Weirdly, there are instructions on it.</p>",
+            'next_text': "It's puzzle time!",
+            'next': 'puzzle3_0.html',
+        }],
+        'ff8a00': [{
+            'name': '4.0 interact painting',
+            'title': 'Morning Sun',
+            'text': '<p>Painter: Yayoi Kusama</p><p>Year: 1999</p>',
+            'next_text': 'Continue Exploring',
+        }],
+        'ffb400': [{
+            'title': 'Grandfather Clock',
+            'text': "<p>The old clock is showing 7'oclock.</p>",
+            'next_text': 'Continue Exploring',
+        }],
+        'fcff00': [{
+            'title': 'Grandfather Clock',
+            'text': '<p>You listen for the characteristic ticking of the clock but hear only silence...</p>',
+            'next_text': 'Continue Exploring',
+        }],
+    },
+    // 'study': [
+    //     {
+
+    //     },
+    // ],
 }
 
 
@@ -265,6 +375,7 @@ $( document ).ready(function() {
 
     if ($('img.click-map')) {
         clickMap($('img.click-map').attr('data-attribute'));
+        populateDiscoveries($('img.click-map').attr('data-attribute'));
     }
 
     // Attach relevant segments to the puzzles!

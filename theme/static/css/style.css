@@ -159,7 +159,6 @@ img.switch {
 /* Nav Map CSS */
 
 .ui-dialog, .ui-dialog-dragging, .ui-dialog-resizing {
-    background-color: #333333;
     height: 100%;
     color: #FFFFFF;
 }
