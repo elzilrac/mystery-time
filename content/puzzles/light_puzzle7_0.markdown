@@ -3,6 +3,7 @@ slug: light_puzzle7_0
 date: 2020-06-04
 puzzle_id: 7
 puzzle_solution_type: action
+back: bedroom0_0.html
 
 ### Puzzle
 # Let's switch

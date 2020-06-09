@@ -79,6 +79,31 @@ function attachPuzzle3() {
     $( "div.solution > input" ).change(checkSolution3);
 }
 
+function attachPuzzle5() {
+    function checkSolution () {
+        let solution = 'soho bee';
+        let puzzle_id = 5;
+        let success_msg = "You're in!"
+        let fail_msg = "Hmm don't think that's it."
+
+        let correct_html = "<img src='media/success.svg'><p class='solution-check'>"+success_msg+"</p>";
+        let fail_html = "<img src='media/failure.svg'><p class='solution-check'>"+fail_msg+"</p>";
+
+        $( "div.solution-check" ).replaceWith( '<div class="solution-check"></div>' );
+        if (this.value == solution) {
+            $('div.solution-check').append(correct_html);
+            $('div.solution-check > p').addClass('success');
+            setUserCompletePuzzle(puzzle_id);
+            // TODO un-grey out 'next question'
+        } else {
+            $('div.solution-check').append(fail_html);
+            $('div.solution-check > p').addClass('failure');
+        }
+    }
+
+    $( "div.solution > input" ).change(checkSolution);
+}
+
 // Light puzzle (temporarily assigned number '7')
 function attachPuzzle7() {
     const INPUTS = 4;
@@ -100,7 +125,7 @@ function attachPuzzle7() {
     function checkSolution7(current_switch_state) {
         if (current_switch_state.every(Boolean)) {
             let puzzle_id = 7;
-            let success_msg = "You've reached proper <em>Illumination<em>.";
+            let success_msg = "You've reached proper <strong>Illumination</strong>.";
             let correct_html = "<img src='media/success.svg'><p class='solution-check'>"+success_msg+"</p>";
             if (!$('div.solution-check > p').length) {
                 // No need to append a million of these
@@ -196,13 +221,15 @@ function clickMap(room_name){
 
         var pixelData = canvas.getContext('2d').getImageData(X, Y, 1, 1).data;
         var hex = rgbToHex(pixelData[0], pixelData[1], pixelData[2]);
-        console.log(hex);
         pickDiscovery(room_name, hex);
     })
 
 }
 
 function pickDiscovery(room_name, hex) {
+    if ((typeof(discoveries[room_name]) == "undefined") || (typeof(discoveries[room_name][hex]) == "undefined") ) {
+        return;
+    }
     if (discoveries[room_name][hex].length == 1){
         // simple case, just trigger!
         $( "#"+hex+'_0' ).dialog( "open" );
@@ -219,10 +246,7 @@ function populateDiscoveries(room_name){
 
         if(room_discoveries.hasOwnProperty(hex)){
             for (var i = 0; i < room_discoveries[hex].length; i++) {
-                console.log(hex)
-                console.log(room_discoveries[hex]);
                 let discovery = room_discoveries[hex][i];
-                console.log(discovery)
                 let discovery_id = hex + '_' + i;
                 hints.append('<div id="'+discovery_id+'"></div>');
                 let outer_html = $('#'+discovery_id);
@@ -256,13 +280,13 @@ const discoveries = {
         'a8ff00': [{
             'name': 'foyer 1.0 interact book',
             'title': 'A mysterious book',
-            'text': '<p>A suspicious-looking guestbook is on the console table.</p><p>You seem to think that shaking it is a good idea, and it seems to work in your favor: a barely-legible <em>tarot card</em> gently drifts to the ground.</p>',
+            'text': '<p>A suspicious-looking guestbook is on the console table.</p><p>You seem to think that shaking it is a good idea, and it seems to work in your favor: a barely-legible <strong>tarot card</strong> gently drifts to the ground.</p>',
             'next_text': 'Continue Exploring',
         }],
         '00eeff': [{
             'name': '2.0 interact drawer (no key)',
             'title': "A locked drawer",
-            'text': "<p>Since you're a detective, it's in your nature to snoop. You try to open the drawer, but it’s locked.</p><p>There must be a <em>key</em> here somewhere.</p>",
+            'text': "<p>Since you're a detective, it's in your nature to snoop. You try to open the drawer, but it's locked.</p><p>There must be a <strong>key</strong> here somewhere.</p>",
             'next_text': 'Continue Exploring',
         },
         {
@@ -274,13 +298,13 @@ const discoveries = {
         'ff0000': [{
             'name': '3.0 interact plant',
             'title': 'A peaceful plant',
-            'text': "<p>You notice something that looks not quite like soil or the <em>peace lilies</em> that are growing in the pot — in fact, it's glinting.</p><p>You pick up a tiny box with a combination lock. Weirdly, there are instructions on it.</p>",
+            'text': "<p>You notice something that looks not quite like soil or the <strong>peace lilies</strong> that are growing in the pot — in fact, it's glinting.</p><p>You pick up a tiny box with a combination lock. Weirdly, there are instructions on it.</p>",
             'next_text': "It's puzzle time!",
             'next': 'puzzle3_0.html',
         }],
         'ff8a00': [{
             'name': '4.0 interact painting',
-            'title': 'Morning Sun',
+            'title': '<em>Morning Sun</em>',
             'text': '<p>Painter: Yayoi Kusama</p><p>Year: 1999</p>',
             'next_text': 'Continue Exploring',
         }],
@@ -295,11 +319,186 @@ const discoveries = {
             'next_text': 'Continue Exploring',
         }],
     },
-    // 'study': [
-    //     {
-
-    //     },
-    // ],
+    'study': {
+        'ff0000': [{
+            'name': '1.0 interact flower',
+            'title': 'A vase',
+            'text': "<p>It's an <strong>amaryllis</strong> in a vase. It still seems pretty healthy; a reminder that Malerei hasn't been missing for long.</p>",
+            'next_text': 'Continue Exploring',
+        }],
+        'ff8a00': [{
+            'name': '2.0 interact painting',
+            'title': 'The Execution of Lady Jane Grey',
+            'text': "<p>Painter: Paul Delaroche</p><p>Year: 1833</p>",
+            'next_text': 'Continue Exploring',
+        }],
+        '0030ff': [{
+            'name': '3.0 interact drawer',
+            'title': 'A little storage',
+            'text': "<p>Upon opening the door, you're greeted with a safe with a bizarre locking mechanism.</p>",
+            'next_text': "It's puzzle time!",
+            'next': 'puzzle4_0.html',
+        }],
+        'a8ff00': [{
+            'name': '4.0 interact laptop',
+            'title': 'A laptop',
+            'text': "<p>You see a laptop on the desk. Couldn't hurt to take a peek, right?</p>",
+            'next_text': "It's puzzle time!",
+            'next': 'puzzle5_0.html',
+        }],
+        '00eeff': [{
+            'title': 'Clicky pen',
+            'text': "<p>There's a nice pen sitting on the desk. You test it out on a scrap piece of paper, finding it produces a smooth flowing line. The owner would be very sad to lose such a nice pen, so you put it back.</p>",
+            'next_text': "Continue Exploring",
+        }],
+        'ffb400': [{
+            'title': 'Small Clock',
+            'text': "<p>The small clock is showing 4'oclock.</p>",
+            'next_text': 'Continue Exploring',
+        }],
+        'ae00ff': [{
+            'title': 'Cushion',
+            'text': "<p>The cushion on the floor looks just perfect for sitting down and enjoying tea.</p>",
+            'next_text': 'Continue Exploring',
+        }],
+        'f600ff': [{
+            'title': 'Tea Kettle',
+            'text': "<p>Looks like a well-loved tea kettle. Unsuprisingly, there is no tea inside.</p>",
+            'next_text': 'Continue Exploring',
+        }],
+        'ff0084': [{
+            'title': 'A tea set',
+            'text': "<p>A tea cup sits atop a wooden box full of tea. Looks like the teas are divided into <strong>black</strong>, <strong>green</strong>, and <strong>white</strong>. It smells very aromatic!</p>",
+            'next_text': 'Continue Exploring',
+        }],
+        '3812b5': [{
+            'title': 'A handwritten note',
+            'text': "<p>lapsang 212F</p><p>sencha 176F</p><p>baimudan 185F</p>",
+            'next_text': 'Continue Exploring',
+        }],
+        '9382c8': [{
+            'title': 'Scrap paper',
+            'text': "<p>A scrap piece of paper. Might be nice for testing out a pen.</p>",
+            'next_text': 'Continue Exploring',
+        }],
+    },
+    'bedroom': {
+        'ff8a00': [
+            {
+                'name': '1.0 interact frame',
+                'title': 'An empty frame',
+                'text': "<p>There's a rolled-up canvas, but it looks ruined. You take a look at the frame behind it to see if anything seems amiss. Lo and behold...</p>",
+                'next_text': "It's puzzle time!",
+                'next': 'puzzle6_0.html',
+            }
+        ],
+        'ff0000': [
+            {
+                'name': '2.0 interact flower',
+                'title': 'A sweet scent',
+                'text': "<p>A vase containing vibrant purple <strong>primulas</strong> are thriving in this room.</p>",
+                'next_text': 'Continue Exploring',
+            }
+        ],
+        'ffb400': [
+            {
+                'title': 'Wall Clock',
+                'text': "<p>The clock built into the wall reads 7 o'clock.</p>",
+                'next_text': 'Continue Exploring',
+            }
+        ],
+        '0030ff': [
+            {
+                'name': '3.0 interact note',
+                'title': 'Numbers on a note',
+                'text': "<p>It reads: 0405 339.</p><p>What's this for? This is probably useful for something...</p>",
+                'next_text': "Continue Exploring",
+            }
+        ],
+        'ae00ff': [
+            {
+                'name': '4.0 interact recorder',
+                'title': 'Records indicate...',
+                'text': "<p>You find another <strong>blank tarot card</strong> and a <strong>recorder</strong> locked with another strange mechanism. May as well give it a go.</p>",
+                'next_text': "It's puzzle time!",
+                'next': "light_puzzle7_0.html",
+            }
+        ],
+        '00eeff': [
+            {
+                'title': 'Cozy bed',
+                'text': "<p>What a nicely made bed.</p>",
+                'next_text': "Continue Exploring",
+            }
+        ],
+    },
+    'library': {
+        'ff8a00': [{
+            'name': '1.0 interact painting',
+            'title': '<em>Elena at Cala de San Vicente</em>',
+            'text': "<p>Painting: Joaqu&iacute;n Sorolla y Bastida</p><p>Year: 1919</p>",
+            'next_text': "Continue Exploring",
+        }],
+        'ff0000': [{
+            'name': '2.0 interact plant',
+            'title': 'More green things',
+            'text': "<p>It's a heavy vase filled with <strong>succulent</strong> plants. Beneath it, you find another <strong>blank tarot card</strong>.</p>",
+            // TODO: trigger tarot card inventory
+            'next_text': "Continue Exploring",
+        }],
+        'a8ff00': [{
+            'name': '3.0 interact top book shelf',
+            'title': '<em>Seasoned Plants</em>',
+            'text': "<p>These pages are bookmarked:<p> \
+                     <p><strong>Amaryllis</strong>, autumn</p> \
+                     <p><strong>Peace lily</strong>, summer</p> \
+                     <p><strong>Succulents</strong>, winter</p> \
+                     <p><strong>Primula</strong>, spring</p>",
+            'next_text': "Continue Exploring",
+        }],
+        '00eeff': [{
+            'name': '4.0 interact 2nd book shelf',
+            'title': 'Fancy journal',
+            'text': '<p>Pages and pages of flowery script.</p><p><em>"Water makes me think of balance."</em></p><p><em>"Jane Grey. What it must have been like to die in the Tower of London..".</em></p>',
+            'next_text': "Continue Exploring",
+        }],
+        'ae00ff': [{
+            'name': '5.0 interact 3rd book shelf',
+            'title': '<em>Beau-tea-ful</em>',
+            'text': "<p>A lovely book catches your eye; you've been meaning to try tea for a bit.</p> \
+                     <p><strong>Lapsang souchong</strong> is a black tea.</p> \
+                     <p><strong>Sencha</strong> is a green tea.</p> \
+                     <p><strong>Bai mu dan</strong> is a white tea.</p>",
+            'next_text': "Continue Exploring",
+        }],
+        'f600ff': [{
+            'name': '6.0 interact bottom shelf',
+            'title': '<em>It Takes Two to Tarot</em>',
+            'text': "<p>You pull out a book with a well-worn cover; this must have been read a lot.</p><p>TODO: TAROT INFO/LINK OUT HERE</p>",
+            'next_text': "Continue Exploring",
+        }],
+        'ff0084': [{
+            'name': '7.0 interact hidden room',
+            'title': 'A secret door',
+            'text': "<p>Pushing the cushions and part of the bookshelf out of the way, you're amazed to find a trap door under the rug. Well, if you weren't suspicious before, you're definitely suspicious now.</p>",
+            'next_text': "Continue Exploring",
+        }],
+        'ffb400': [{
+            'title': 'Digital Clock',
+            'text': "<p>The digital clock is displaying 14:00.</p>",
+            'next_text': 'Continue Exploring',
+        }],
+        '3812b5': [{
+            'title': 'Lamp',
+            'text': "<p>A free standing lamp. Useful for reading all those books.</p>",
+            'next_text': 'Continue Exploring',
+        }],
+        '0030ff': [{
+            'title': 'Tiny light',
+            'text': "<p>Awww. It's so small!</p>",
+            'next_text': 'Continue Exploring',
+        }],
+    },
 }
 
 
@@ -387,6 +586,9 @@ $( document ).ready(function() {
     }
     if($("#3").length){
         attachPuzzle3();
+    }
+    if($("#5").length){
+        attachPuzzle5();
     }
     if($("#7").length){
         attachPuzzle7();
