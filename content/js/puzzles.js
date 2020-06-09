@@ -292,8 +292,9 @@ const discoveries = {
         {
             'name': '2.1 interact drawer (key)',
             'title': "An unlocked drawer",
-            'text': "...TODO",
-            'next_text': 'Continue Exploring',
+            'text': '<p>Looks like it worked! Inside, you find another key labelled "Library". It is definitely a good idea to explore locked areas, because they always hide something...</p>',
+            // TODO: trigger library unlock function
+            'next_text': 'Go to the library',
         }],
         'ff0000': [{
             'name': '3.0 interact plant',
@@ -407,7 +408,7 @@ const discoveries = {
                 'next_text': 'Continue Exploring',
             }
         ],
-        '0030ff': [
+        'a8ff00': [ // note on board
             {
                 'name': '3.0 interact note',
                 'title': 'Numbers on a note',
@@ -415,14 +416,31 @@ const discoveries = {
                 'next_text': "Continue Exploring",
             }
         ],
-        'ae00ff': [
+        '0030ff': [ //  under the bed
             {
-                'name': '4.0 interact recorder',
-                'title': 'Records indicate...',
+                'name': '4.0 interact under the bed',
+                'title': 'Another...key.',
+                'text': "<p>Well, this wasn't a very secure location. Guess this goes to the drawer next to the bed.</p>",
+                // TODO: unlock drawer next to the bed
+                'next_text': "Continue Exploring",
+            }
+        ],
+        'ae00ff': [  // drawer
+            {
+                'name': '5.0 interact drawer',
+                'title': 'Another locked drawer',
+                'text': "<p>This person seems to like locking everything down.</p><p>Time to look for another key...but where would it be?</p>",
+                'next_text': "Continue Exploring",
+            },
+            {
+                'name': '5.1 interact drawer',
+                // TODO: if 0030ff has been visited
+                'title': 'An unlocked drawer',
                 'text': "<p>You find another <strong>blank tarot card</strong> and a <strong>recorder</strong> locked with another strange mechanism. May as well give it a go.</p>",
+                // TODO: add tarot card to inventory
                 'next_text': "It's puzzle time!",
                 'next': "light_puzzle7_0.html",
-            }
+            },
         ],
         '00eeff': [
             {
@@ -477,12 +495,21 @@ const discoveries = {
             'text': "<p>You pull out a book with a well-worn cover; this must have been read a lot.</p><p>TODO: TAROT INFO/LINK OUT HERE</p>",
             'next_text': "Continue Exploring",
         }],
-        'ff0084': [{
-            'name': '7.0 interact hidden room',
-            'title': 'A secret door',
-            'text': "<p>Pushing the cushions and part of the bookshelf out of the way, you're amazed to find a trap door under the rug. Well, if you weren't suspicious before, you're definitely suspicious now.</p>",
-            'next_text': "Continue Exploring",
-        }],
+        'ff0084': [
+            {
+                'name': '7.0 interact hidden room',
+                'title': 'A cushion covered chair',
+                'text': "<p>The owner of this chair obviously loves cushions. You can hardly see the chair underneath. Looks comfy though.</p>",
+                'next_text': "Continue Exploring",
+            },
+            {
+                'name': '7.1 interact hidden room',
+                'title': 'A secret door',
+                // TODO: won't reveal until light puzzle is solved
+                'text': "<p>Pushing the cushions and part of the bookshelf out of the way, you're amazed to find a trap door under the rug. Well, if you weren't suspicious before, you're definitely suspicious now.</p>",
+                'next_text': "Continue Exploring",
+            },
+        ],
         'ffb400': [{
             'title': 'Digital Clock',
             'text': "<p>The digital clock is displaying 14:00.</p>",
@@ -500,6 +527,26 @@ const discoveries = {
         }],
     },
 }
+
+const UNLOCKS = {
+    // all of the rooms have to be unlocked
+    access: [
+        'foyer_drawer',  // solve puzzle 3.0
+        'bedroom_drawer', // find key under the bed
+        'bedroom_underbed', // solve puzzle 5.0
+        'secret',  // solve light puzzle
+        'library',  // find a key in the foyer
+        'bedroom',  // unlocks with tea temperature puzzle
+        'foyer', // unlocked by doing intro puzzles
+        'study',
+    ],
+    cards : {
+        'sun': 'The Sun',
+        temperance: 'Temperance',
+        chariot: 'The Chariot',
+        tower: 'The Tower',
+    }
+};
 
 
 // cookie helpers
@@ -543,6 +590,9 @@ function unlockMapSections(){
     if (true){
         do_unlock('foyer');
         do_unlock('study');
+        do_unlock('library');
+        do_unlock('bedroom');
+        do_unlock('secret');
     }
     // Other cases TODO
 }
