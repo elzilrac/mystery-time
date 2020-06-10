@@ -372,7 +372,7 @@ const discoveries = {
         'ff0000': [{
             'name': '3.0 interact plant',
             'title': 'A peaceful plant',
-            'text': "<p>You notice something that looks not quite like soil or the <strong>peace lilies</strong> that are growing in the pot — in fact, it's glinting.</p><p>You pick up a tiny box with a combination lock. Weirdly, there are instructions on it.</p>",
+            'text': "<p>You notice something that looks not quite like soil or the <strong>peace lilies</strong> that are growing in the pot &#x2014; in fact, it's glinting.</p><p>You pick up a tiny box with a combination lock. Weirdly, there are instructions on it.</p>",
             'next_text': "It's puzzle time!",
             'next': 'puzzle3_0.html',
         }],
@@ -635,7 +635,7 @@ const ROOMS = ['secret', 'bedroom', 'library', 'foyer', 'study'];
 const COOKIE_NAME = 'game_data';
 
 function getCookie(key) {
-    let game_data = JSON.parse(Cookies.get(COOKIE_NAME));
+    let game_data = (Cookies.get(COOKIE_NAME) ? JSON.parse(Cookies.get(COOKIE_NAME)) : {});
     return game_data[key];
 }
 
@@ -667,7 +667,7 @@ function setUserCompletePuzzle(puzzle_id) {
         5 : ['bedroom_underbed'],
         7 : ['secret'],
     }
-    if (typeof(associated_unlocks[puzzle_id] != 'undefined')) {
+    if (typeof(associated_unlocks[puzzle_id]) != 'undefined') {
         for (let i = 0; i < associated_unlocks[puzzle_id].length; i++) {
             setUserUnlock(associated_unlocks[puzzle_id][i]);
         }
