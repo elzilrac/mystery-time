@@ -2,7 +2,7 @@ title: (TODO)
 slug: puzzle6_0
 date: 2020-06-04
 back: bedroom0_0.html
-puzzle_id: 5
+puzzle_id: 6
 puzzle_solution_type: text
 question_prompt: Enter the password:
 next: puzzle5_1.html

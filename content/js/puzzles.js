@@ -18,7 +18,7 @@ function attachPuzzle1 () {
             $('div.solution-check').append(correct_html);
             $('div.solution-check > p').addClass('success');
             setUserCompletePuzzle(puzzle_id);
-            // TODO un-grey out 'next question'
+            toggleButtonLock($('.button'));
         } else {
             $('div.solution-check').append(fail_html);
             $('div.solution-check > p').addClass('failure');
@@ -61,7 +61,7 @@ function attachPuzzle2(){
             $('div.solution-check').append(correct_html);
             $('div.solution-check > p').addClass('success');
             setUserCompletePuzzle(puzzle_id);
-            // TODO un-grey out 'next question'
+            toggleButtonLock($('.button'));
         } else {
             $('div.solution-check').append(fail_html);
             $('div.solution-check > p').addClass('failure');
@@ -94,7 +94,7 @@ function attachPuzzle3() {
             $('div.solution-check').append(correct_html);
             $('div.solution-check > p').addClass('success');
             setUserCompletePuzzle(puzzle_id);
-            // TODO un-grey out 'next question'
+            toggleButtonLock($('.button'));
         } else {
             $('div.solution-check').append(fail_html);
             $('div.solution-check > p').addClass('failure');
@@ -132,7 +132,8 @@ function attachPuzzle4(){
         });
 
         if (total_matches == NEEDED_MATCHES) {
-            setUserCompletePuzzle(puzzle_id)
+            setUserCompletePuzzle(puzzle_id);
+            toggleButtonLock($('.button'));
         };
     }
 
@@ -168,7 +169,7 @@ function attachPuzzle5() {
             $('div.solution-check').append(correct_html);
             $('div.solution-check > p').addClass('success');
             setUserCompletePuzzle(puzzle_id);
-            // TODO un-grey out 'next question'
+            toggleButtonLock($('.button'));
         } else {
             $('div.solution-check').append(fail_html);
             $('div.solution-check > p').addClass('failure');
@@ -206,6 +207,7 @@ function attachPuzzle7() {
                 $('div.solution-check').append(correct_html);
                 $('div.solution-check > p').addClass('success');
                 setUserCompletePuzzle(puzzle_id);
+                toggleButtonLock($('.button'));
             }
         } else {
             // clear the success status message
@@ -323,6 +325,24 @@ function pickDiscovery(room_name, hex) {
     }
 }
 
+var toggleButtonLock = (function () {
+    // This function is only intended to turn off ONCE
+    // and when you've turned the link back ON, it STAYS ON.
+    var button_link = '';
+    return function (button_element) {
+        let a_href = button_element.parent('a');
+        if (!button_link) {
+            button_link = a_href.attr('href');
+            a_href.removeAttr('href');
+            button_element.addClass('locked');
+        } else {
+            a_href.attr('href', button_link);
+            button_element.removeClass('locked');
+        }
+    }
+})();
+
+
 function populateDiscoveries(room_name){
     let hints = $('body').append("<div class='hints'</div'>");
     let room_discoveries = discoveries[room_name];
@@ -337,14 +357,12 @@ function populateDiscoveries(room_name){
                 $('#'+discovery_id).append('<div class="discovery"></div>');
                 let outer_html = $('#'+discovery_id+' > .discovery');
 
-
                 outer_html.append('<h1>'+discovery['title']+'</h1>');
                 outer_html.append('<div>'+discovery['text']+'</div>');
                 
-                outer_html.append('<div class="button"><p>'+discovery['next_text']+'</p></div>');
+                outer_html.append('<div class="row next"><div class="button"><p>'+discovery['next_text']+'</p></div></div>');
 
-                let button = $(outer_html.children('div.button')[0]);
-                
+                let button = $(outer_html.children('div.next').children('div.button')[0]);
                 if (discovery['next']){
                     button.wrap('<a href="/'+discovery['next']+'"></a>');
                 }
@@ -379,6 +397,7 @@ const discoveries = {
                 // trigger library unlock function
                 'side_effect': function() {setUserUnlock('library')},
                 'next_text': 'Go to the library',
+                'next': 'library0_0.html',
             },
             {
                 'name': '2.0 interact drawer (no key)',
@@ -420,7 +439,7 @@ const discoveries = {
         }],
         'ff8a00': [{
             'name': '2.0 interact painting',
-            'title': 'The Execution of Lady Jane Grey',
+            'title': '<em>The Execution of Lady Jane Grey</em>',
             'text': "<p>Painter: Paul Delaroche</p><p>Year: 1833</p>",
             'next_text': 'Continue Exploring',
         }],
@@ -569,11 +588,11 @@ const discoveries = {
         'a8ff00': [{
             'name': '3.0 interact top book shelf',
             'title': '<em>Seasoned Plants</em>',
-            'text': "<p>These pages are bookmarked:<p> \
-                     <p><strong>Amaryllis</strong>, autumn</p> \
-                     <p><strong>Peace lily</strong>, summer</p> \
-                     <p><strong>Succulents</strong>, winter</p> \
-                     <p><strong>Primula</strong>, spring</p>",
+            'text': "<p>These pages are bookmarked:</p> \
+                     <p><strong>Amaryllis</strong>, autumn<br /> \
+                     <strong>Peace lily</strong>, summer<br /> \
+                     <strong>Succulents</strong>, winter<br /> \
+                     <strong>Primula</strong>, spring</p>",
             'next_text': "Continue Exploring",
         }],
         '00eeff': [{
@@ -586,9 +605,9 @@ const discoveries = {
             'name': '5.0 interact 3rd book shelf',
             'title': '<em>Beau-tea-ful</em>',
             'text': "<p>A lovely book catches your eye; you've been meaning to try tea for a bit.</p> \
-                     <p><strong>Lapsang souchong</strong> is a black tea.</p> \
-                     <p><strong>Sencha</strong> is a green tea.</p> \
-                     <p><strong>Bai mu dan</strong> is a white tea.</p>",
+                     <p><strong>Lapsang souchong</strong> is a black tea.<br /> \
+                     <strong>Sencha</strong> is a green tea.<br /> \
+                     <strong>Bai mu dan</strong> is a white tea.<br /></p>",
             'next_text': "Continue Exploring",
         }],
         'f600ff': [{
@@ -752,20 +771,26 @@ $( document ).ready(function() {
     // Attach relevant segments to the puzzles!
     if($("#1").length){
         attachPuzzle1();
+        toggleButtonLock($('.button'));
     }
     if($("#2").length){
         attachPuzzle2();
+        toggleButtonLock($('.button'));
     }
     if($("#3").length){
         attachPuzzle3();
+        toggleButtonLock($('.button'));
     }
     if($("#4").length){
         attachPuzzle4();
+        toggleButtonLock($('.button'));
     }
     if($("#5").length){
         attachPuzzle5();
+        toggleButtonLock($('.button'));
     }
     if($("#7").length){
         attachPuzzle7();
+        toggleButtonLock($('.button'));
     }
 });

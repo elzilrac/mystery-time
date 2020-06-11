@@ -98,7 +98,8 @@ div.next {
 }
 
 div.button {
-    width: fit-content;
+    width: auto;
+    display: inline-block;
     padding-left: 1.25em;
     padding-right: 1.25em;
     padding-top:0.1em;
@@ -110,6 +111,10 @@ div.button {
     color: #fff;
     text-align: center;
     line-height: 0.75em;
+}
+
+.button.locked p {
+    color: #888;
 }
 
 .button a:hover, a:visited, a:link, a:active {
@@ -237,14 +242,18 @@ div.discovery {
     padding: 1.5em;
 }
 
-div.discovery > .button {
+div.discovery > div > p {
+    line-height: 1.5em;
+}
+div.discovery > div.next > .button {
     background: #fff;
     border: 3px solid;
     border-color: #000;
 }
 
-div.discovery > .button > p {
+div.discovery > div.next > .button > p {
     color: #000;
+    line-height: 0.1em;
 }
 
 input.tea-puzzle {
