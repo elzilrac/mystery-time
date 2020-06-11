@@ -81,7 +81,11 @@ p.solution-check{
 div.tip {
     background-color: #E6F4FF;
     color:#000;
-    padding: 1em;
+    width: auto;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left:2em;
+    padding-right:2em;
 }
 div.answer {
     padding: 2em;
@@ -106,6 +110,10 @@ div.button {
     color: #fff;
     text-align: center;
     line-height: 0.75em;
+}
+
+.button a:hover, a:visited, a:link, a:active {
+    text-decoration: none;
 }
 
 .button.locked {
@@ -157,10 +165,19 @@ img.switch {
 }
 
 /* Nav Map CSS */
-
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
+    border-radius: 0px;
+}
+.ui-widget.ui-widget-content {
+    border: none;
+    padding: 0px;
+}
 .ui-dialog, .ui-dialog-dragging, .ui-dialog-resizing {
-    height: 100%;
     color: #FFFFFF;
+    padding: 0;
+}
+.ui-dialog .ui-dialog-content {
+    padding: 0px;
 }
 
 .ui-widget-header {
@@ -171,25 +188,28 @@ img.switch {
     background-color: rgba(0,0,0,0);
 }
 .ui-dialog-title {
-    color:#fff;
-    font-family: 'SF Compact Display Thin', sans-serif;
+    color:#949494;
+    font-size: 0.7em;
+    font-family: 'SF Compact Display', sans-serif;
 }
-.ui-dialog-titlebar-close {}
 
-div.nav-bg {
+#map {
   background-color: #333333;
-  height: 100%;
+  height: 100vh;
   color: #FFFFFF;
+  box-shadow: -5px 5px 20px #888;
 }
 div.nav-map {
-    padding-bottom: 10%;
+    padding-bottom: 20%;
+    padding-top: 20%;
     text-align: center;
     font-family: 'SF Compact Display Thin', sans-serif;
 }
 div.nav-room {
     color: #000000;
     height: 99px;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
+    margin-right: 2px;
     display: inline-block;
 }
 div.nav-room.locked {
@@ -202,8 +222,27 @@ div.nav-room.bedroom {width:116px;}
 div.nav-room.secret {width:82px}
 div.nav-room.library {width:99px}
 div.nav-room.study {width:99px}
-div.nav-room.foyer {width:201px; height:70px;}
+div.nav-room.foyer {width:204px; height:70px;}
 
-div.nav-room > img {
+div.nav-room > p > img {
     width:50px;
+    margin-bottom: -2em; /* Fixes the weird offset issue*/
+}
+
+div#map > div.tip {
+    margin-bottom: 15%;
+}
+
+div.discovery {
+    padding: 1.5em;
+}
+
+div.discovery > .button {
+    background: #fff;
+    border: 3px solid;
+    border-color: #000;
+}
+
+div.discovery > .button > p {
+    color: #000;
 }

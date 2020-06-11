@@ -321,15 +321,17 @@ function populateDiscoveries(room_name){
             for (var i = 0; i < room_discoveries[hex].length; i++) {
                 let discovery = room_discoveries[hex][i];
                 let discovery_id = hex + '_' + i;
-                hints.append('<div id="'+discovery_id+'"></div>');
-                let outer_html = $('#'+discovery_id);
-                outer_html.append('<h3>Discovery</h3>');
+                hints.append('<div id="'+discovery_id+'" title="DISCOVERY"></div>');
+                $('#'+discovery_id).append('<div class="discovery"></div>');
+                let outer_html = $('#'+discovery_id+' > .discovery');
+
+
                 outer_html.append('<h1>'+discovery['title']+'</h1>');
                 outer_html.append('<div>'+discovery['text']+'</div>');
                 
                 outer_html.append('<div class="button"><p>'+discovery['next_text']+'</p></div>');
 
-                let button = $($('#'+discovery_id).children('div.button')[0]);
+                let button = $(outer_html.children('div.button')[0]);
                 
                 if (discovery['next']){
                     button.wrap('<a href="/'+discovery['next']+'"></a>');
@@ -726,6 +728,7 @@ $( document ).ready(function() {
     $('a[href*=map]').click(function() {
         $( "#map" ).dialog( "open" );
     });
+
     unlockMapSections();
 
     if ($('img.click-map')) {
