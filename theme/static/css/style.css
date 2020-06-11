@@ -246,3 +246,7 @@ div.discovery > .button {
 div.discovery > .button > p {
     color: #000;
 }
+
+input.tea-puzzle {
+    width: 3em;
+}

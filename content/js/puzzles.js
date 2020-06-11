@@ -141,7 +141,8 @@ function attachPuzzle4(){
             $('div.puzzle-content').append('<div><img \
                 class="bulb" \
                 src="/media/puzzle4/'+color+'_light.png"> \
-                <input class="tea-puzzle" data-attribute="'+color+'" type="text" placeholder="000"></input> \
+                <input name="'+color+'" class="tea-puzzle" data-attribute="'+color+'" type="text" placeholder="000"></input> \
+                <label for="'+color+'">C</label> \
                 <div class="solution-check" data-attribute="'+color+'"></div> \
                 </div>'
             );
@@ -303,11 +304,22 @@ function pickDiscovery(room_name, hex) {
     if ((typeof(discoveries[room_name]) == "undefined") || (typeof(discoveries[room_name][hex]) == "undefined") ) {
         return;
     }
-    if (discoveries[room_name][hex].length == 1){
-        // simple case, just trigger!
-        $( "#"+hex+'_0' ).dialog( "open" );
-    } else {
-        // TODO... case by case logic I guess :mystery:
+
+    for (let i = 0; i < discoveries[room_name][hex].length; i++) {
+        let discovery = discoveries[room_name][hex][i];
+        if (typeof(discovery['condition']) != 'undefined') {
+            // then check if it's allowed (returns False if we need to skip)
+            if (!discovery['condition']()) {
+                continue;
+            }
+        }
+        // Execute the side effects of the discovery, if any
+        if (typeof(discovery['side_effect']) != 'undefined') {
+            discovery['side_effect']();
+        }
+        // Open the dialog
+        $( "#"+hex+'_'+i ).dialog( "open" );
+        return;
     }
 }
 
@@ -358,19 +370,23 @@ const discoveries = {
             'text': '<p>A suspicious-looking guestbook is on the console table.</p><p>You seem to think that shaking it is a good idea, and it seems to work in your favor: a barely-legible <strong>tarot card</strong> gently drifts to the ground.</p>',
             'next_text': 'Continue Exploring',
         }],
-        '00eeff': [{
-            'name': '2.0 interact drawer (no key)',
-            'title': "A locked drawer",
-            'text': "<p>Since you're a detective, it's in your nature to snoop. You try to open the drawer, but it's locked.</p><p>There must be a <strong>key</strong> here somewhere.</p>",
-            'next_text': 'Continue Exploring',
-        },
-        {
-            'name': '2.1 interact drawer (key)',
-            'title': "An unlocked drawer",
-            'text': '<p>Looks like it worked! Inside, you find another key labelled "Library". It is definitely a good idea to explore locked areas, because they always hide something...</p>',
-            // TODO: trigger library unlock function
-            'next_text': 'Go to the library',
-        }],
+        '00eeff': [
+            {
+                'name': '2.1 interact drawer (key)',
+                'title': "An unlocked drawer",
+                'text': '<p>Looks like it worked! Inside, you find another key labelled "Library". It is definitely a good idea to explore locked areas, because they always hide something...</p>',
+                'condition': function() {return checkUserUnlock('foyer_drawer')},
+                // trigger library unlock function
+                'side_effect': function() {setUserUnlock('library')},
+                'next_text': 'Go to the library',
+            },
+            {
+                'name': '2.0 interact drawer (no key)',
+                'title': "A locked drawer",
+                'text': "<p>Since you're a detective, it's in your nature to snoop. You try to open the drawer, but it's locked.</p><p>There must be a <strong>key</strong> here somewhere.</p>",
+                'next_text': 'Continue Exploring',
+            },
+        ],
         'ff0000': [{
             'name': '3.0 interact plant',
             'title': 'A peaceful plant',
@@ -493,34 +509,38 @@ const discoveries = {
         ],
         '0030ff': [ //  under the bed
             {
-                'title': 'Cozy bed',
-                'text': "<p>What a nicely made bed.</p>",
+                'name': '4.0 interact under the bed',
+                'title': 'Another...key.',
+                'text': "<p>Well, this wasn't a very secure location. Guess this goes to the drawer next to the bed.</p>",
+                // requires puzzle5.0 to unlock
+                'condition': function() {return checkUserCompletePuzzle(5)},
+                // unlock drawer next to the bed
+                'side_effect': function() {setUserUnlock('bedroom_drawer')},
                 'next_text': "Continue Exploring",
             },
             {
-                'name': '4.0 interact under the bed',
-                // TODO: requires puzzle5.0 to unlock
-                'title': 'Another...key.',
-                'text': "<p>Well, this wasn't a very secure location. Guess this goes to the drawer next to the bed.</p>",
-                // TODO: unlock drawer next to the bed
+                'title': 'Cozy bed',
+                'text': "<p>What a nicely made bed.</p>",
                 'next_text': "Continue Exploring",
             },
         ],
         'ae00ff': [  // drawer
             {
+                'name': '5.1 interact drawer',
+                'title': 'An unlocked drawer',
+                'text': "<p>You find another <strong>blank tarot card</strong> and a <strong>recorder</strong> locked with another strange mechanism. May as well give it a go.</p>",
+                // requires if 0030ff has been visited
+                'condition': function() {return checkUserUnlock('bedroom_drawer')},
+                // add tarot card to inventory - chariot
+                'side_effect': function() {setUserUnlock('chariot')},
+                'next_text': "It's puzzle time!",
+                'next': "light_puzzle7_0.html",
+            },
+            {
                 'name': '5.0 interact drawer',
                 'title': 'Another locked drawer',
                 'text': "<p>This person seems to like locking everything down.</p><p>Time to look for another key...but where would it be?</p>",
                 'next_text': "Continue Exploring",
-            },
-            {
-                'name': '5.1 interact drawer',
-                // TODO: if 0030ff has been visited
-                'title': 'An unlocked drawer',
-                'text': "<p>You find another <strong>blank tarot card</strong> and a <strong>recorder</strong> locked with another strange mechanism. May as well give it a go.</p>",
-                // TODO: add tarot card to inventory
-                'next_text': "It's puzzle time!",
-                'next': "light_puzzle7_0.html",
             },
         ],
         '00eeff': [
@@ -542,7 +562,8 @@ const discoveries = {
             'name': '2.0 interact plant',
             'title': 'More green things',
             'text': "<p>It's a heavy vase filled with <strong>succulent</strong> plants. Beneath it, you find another <strong>blank tarot card</strong>.</p>",
-            // TODO: trigger tarot card inventory
+            // add tarot card to inventory - temperance
+            'side_effect': function() {setUserUnlock('temperance')},
             'next_text': "Continue Exploring",
         }],
         'a8ff00': [{
@@ -578,16 +599,17 @@ const discoveries = {
         }],
         'ff0084': [
             {
+                'name': '7.1 interact hidden room',
+                'title': 'A secret door',
+                'text': "<p>Pushing the cushions and part of the bookshelf out of the way, you're amazed to find a trap door under the rug. Well, if you weren't suspicious before, you're definitely suspicious now.</p>",
+                'next_text': "Continue Exploring",
+                // won't reveal until light puzzle is solved
+                'condition': function() {return checkUserCompletePuzzle(7)},
+            },
+            {
                 'name': '7.0 interact hidden room',
                 'title': 'A cushion covered chair',
                 'text': "<p>The owner of this chair obviously loves cushions. You can hardly see the chair underneath. Looks comfy though.</p>",
-                'next_text': "Continue Exploring",
-            },
-            {
-                'name': '7.1 interact hidden room',
-                'title': 'A secret door',
-                // TODO: won't reveal until light puzzle is solved
-                'text': "<p>Pushing the cushions and part of the bookshelf out of the way, you're amazed to find a trap door under the rug. Well, if you weren't suspicious before, you're definitely suspicious now.</p>",
                 'next_text': "Continue Exploring",
             },
         ],
@@ -689,15 +711,6 @@ function do_unlock(room_name){
     elem.append('<p>'+room_name.toUpperCase()+'</p>')
 }
 function unlockMapSections(){
-    // fake unlock code
-    // if (true){
-    //     do_unlock('foyer');
-    //     do_unlock('study');
-    //     do_unlock('library');
-    //     do_unlock('bedroom');
-    //     do_unlock('secret');
-    // }
-    // The ACTUAL unlock code
     for (let i = 0; i < ROOMS.length; i++) {
         if (checkUserUnlock(ROOMS[i])) {
             do_unlock(ROOMS[i]);
