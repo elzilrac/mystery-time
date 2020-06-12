@@ -4,7 +4,7 @@ function attachPuzzle1 () {
     // Contains all the variables of puzzle1 so as not to sully the global scope
     let station_names = ["Acton Town", "Aldgate", "Aldgate East", "Alperton", "Amersham", "Angel", "Archway", "Arnos Grove", "Arsenal", "Baker Street", "Balham", "Bank", "Barbican", "Barking", "Barkingside", "Barons Court", "Bayswater", "Becontree", "Belsize Park", "Bermondsey", "Bethnal Green", "Blackfriars", "Blackhorse Road", "Bond Street", "Borough", "Boston Manor", "Bounds Green", "Bow Road", "Brent Cross", "Brixton", "Bromley-by-Bow", "Buckhurst Hill", "Burnt Oak", "Caledonian Road", "Camden Town", "Canada Water", "Canary Wharf", "Canning Town", "Cannon Street", "Canons Park", "Chalfont & Latimer", "Chalk Farm", "Chancery Lane", "Charing Cross", "Chesham", "Chigwell", "Chiswick Park", "Chorleywood", "Clapham Common", "Clapham North", "Clapham South", "Cockfosters", "Colindale", "Colliers Wood", "Covent Garden", "Croxley", "Dagenham East", "Dagenham Heathway", "Debden", "Dollis Hill", "Ealing Broadway", "Ealing Common", "Earl's Court", "East Acton", "East Finchley", "East Ham", "East Putney", "Eastcote", "Edgware", "Edgware Road", "Edgware Road", "Elephant & Castle", "Elm Park", "Embankment", "Epping", "Euston", "Euston Square", "Fairlop", "Farringdon", "Finchley Central", "Finchley Road", "Finsbury Park", "Fulham Broadway", "Gants Hill", "Gloucester Road", "Golders Green", "Goldhawk Road", "Goodge Street", "Grange Hill", "Great Portland Street", "Greenford", "Green Park", "Gunnersbury", "Hainault", "Hammersmith", "Hammersmith", "Hampstead", "Hanger Lane", "Harlesden", "Harrow & Wealdstone", "Harrow-on-the-Hill", "Hatton Cross", "Heathrow Terminals 2 & 3", "Heathrow Terminal 4", "Heathrow Terminal 5", "Hendon Central", "High Barnet", "Highbury & Islington", "Highgate", "High Street Kensington", "Hillingdon", "Holborn", "Holland Park", "Holloway Road", "Hornchurch", "Hounslow Central", "Hounslow East", "Hounslow West", "Hyde Park Corner", "Ickenham", "Kennington", "Kensal Green", "Kensington (Olympia)", "Kentish Town", "Kenton", "Kew Gardens", "Kilburn", "Kilburn Park", "Kingsbury", "King's Cross St Pancras", "Knightsbridge", "Ladbroke Grove", "Lambeth North", "Lancaster Gate", "Latimer Road", "Leicester Square", "Leyton", "Leytonstone", "Liverpool Street", "London Bridge", "Loughton", "Maida Vale", "Manor House", "Mansion House", "Marble Arch", "Marylebone", "Mile End", "Mill Hill East", "Monument", "Moorgate", "Moor Park", "Morden", "Mornington Crescent", "Neasden", "Newbury Park", "North Acton", "North Ealing", "North Greenwich", "North Harrow", "North Wembley", "Northfields", "Northolt", "Northwick Park", "Northwood", "Northwood Hills", "Notting Hill Gate", "Oakwood", "Old Street", "Osterley", "Oval", "Oxford Circus", "Paddington", "Paddington", "Park Royal", "Parsons Green", "Perivale", "Piccadilly Circus", "Pimlico", "Pinner", "Plaistow", "Preston Road", "Putney Bridge", "Queen's Park", "Queensbury", "Queensway", "Ravenscourt Park", "Rayners Lane", "Redbridge", "Regent's Park", "Richmond", "Rickmansworth", "Roding Valley", "Royal Oak", "Ruislip", "Ruislip Gardens", "Ruislip Manor", "Russell Square", "St. James's Park", "St. John's Wood", "St. Paul's", "Seven Sisters", "Shepherd's Bush", "Shepherd's Bush Market", "Sloane Square", "Snaresbrook", "South Ealing", "South Harrow", "South Kensington", "South Kenton", "South Ruislip", "South Wimbledon", "South Woodford", "Southfields", "Southgate", "Southwark", "Stamford Brook", "Stanmore", "Stepney Green", "Stockwell", "Stonebridge Park", "Stratford", "Sudbury Hill", "Sudbury Town", "Swiss Cottage", "Temple", "Theydon Bois", "Tooting Bec", "Tooting Broadway", "Tottenham Court Road", "Tottenham Hale", "Totteridge & Whetstone", "Tower Hill", "Tufnell Park", "Turnham Green", "Turnpike Lane", "Upminster", "Upminster Bridge", "Upney", "Upton Park", "Uxbridge", "Vauxhall", "Victoria", "Walthamstow Central", "Wanstead", "Warren Street", "Warwick Avenue", "Waterloo", "Watford", "Wembley Central", "Wembley Park", "West Acton", "West Brompton", "West Finchley", "West Ham", "West Hampstead", "West Harrow", "West Kensington", "West Ruislip", "Westbourne Park", "Westminster", "White City", "Whitechapel", "Willesden Green", "Willesden Junction", "Wimbledon", "Wimbledon Park", "Wood Green", "Wood Lane", "Woodford", "Woodside Park"];
 
-    function checkSolution1 (event, ui) {
+    function checkSolution (event, ui) {
         let solution = "Charing Cross"
         let success_msg = "Yup, that's the one!"
         let fail_msg = "Sorry, not quite right. Stay on the train."
@@ -27,7 +27,7 @@ function attachPuzzle1 () {
 
     $( "div.solution > input" ).autocomplete({
         source: station_names,
-        select: checkSolution1,
+        select: checkSolution,
     });
 }
 
@@ -73,7 +73,7 @@ function attachPuzzle2(){
 
 // Puzzle 3 - SOLVABLE
 function attachPuzzle3() {
-    function checkSolution3 () {
+    function checkSolution () {
         let solution = 51181;
         let puzzle_id = 3;
         let success_msg = "Right on target!"
@@ -101,7 +101,7 @@ function attachPuzzle3() {
         }
     }
 
-    $( "div.solution > input" ).change(checkSolution3);
+    $( "div.solution > input" ).change(checkSolution);
 }
 
 // Puzzle 4 - SOLVABLE
@@ -197,7 +197,7 @@ function attachPuzzle7() {
         $('#bulb_'+index).attr("src", "/media/light_puzzle7/lightbulb"+lit+".png");
     }
 
-    function checkSolution7(current_switch_state) {
+    function checkSolution(current_switch_state) {
         if (current_switch_state.every(Boolean)) {
             let puzzle_id = 7;
             let success_msg = "You've reached proper <strong>Illumination</strong>.";
@@ -244,14 +244,12 @@ function attachPuzzle7() {
         }).get();
         // Then calculate the lights
         let calculated_state = resolve_logic_gates(current_switch_state);
-        console.log(calculated_state)
         // Then update the lights
         for (let i = 0; i < calculated_state.length; i++) {
             illuminate_light_index(i, calculated_state[i]);
         }
         // Check for win conditions
-        console.log(calculated_state);
-        checkSolution7(calculated_state);
+        checkSolution(calculated_state);
     }
     $('div.puzzle-content').append(lights_and_switches_html);
     let default_switch_val = false;
@@ -318,6 +316,10 @@ function pickDiscovery(room_name, hex) {
         // Execute the side effects of the discovery, if any
         if (typeof(discovery['side_effect']) != 'undefined') {
             discovery['side_effect']();
+        }
+        // Keep track of discoveries discovered
+        if (discovery['red_herring'] != true) {
+            setUserUnlock(room_name + '_' + hex);
         }
         // Open the dialog
         $( "#"+hex+'_'+i ).dialog( "open" );
@@ -404,6 +406,7 @@ const discoveries = {
                 'title': "A locked drawer",
                 'text': "<p>Since you're a detective, it's in your nature to snoop. You try to open the drawer, but it's locked.</p><p>There must be a <strong>key</strong> here somewhere.</p>",
                 'next_text': 'Continue Exploring',
+                'red_herring': true,
             },
         ],
         'ff0000': [{
@@ -428,6 +431,7 @@ const discoveries = {
             'title': 'Grandfather Clock',
             'text': '<p>You listen for the characteristic ticking of the clock but hear only silence...</p>',
             'next_text': 'Continue Exploring',
+            'red_herring': true,
         }],
     },
     'study': {
@@ -461,6 +465,7 @@ const discoveries = {
             'title': 'Clicky pen',
             'text': "<p>There's a nice pen sitting on the desk. You test it out on a scrap piece of paper, finding it produces a smooth flowing line. The owner would be very sad to lose such a nice pen, so you put it back.</p>",
             'next_text': "Continue Exploring",
+            'red_herring': true,
         }],
         'ffb400': [{
             'title': 'Small Clock',
@@ -471,16 +476,19 @@ const discoveries = {
             'title': 'Cushion',
             'text': "<p>The cushion on the floor looks just perfect for sitting down and enjoying tea.</p>",
             'next_text': 'Continue Exploring',
+            'red_herring': true,
         }],
         'f600ff': [{
             'title': 'Tea Kettle',
             'text': "<p>Looks like a well-loved tea kettle. Unsuprisingly, there is no tea inside.</p>",
             'next_text': 'Continue Exploring',
+            'red_herring': true,
         }],
         'ff0084': [{
             'title': 'A tea set',
             'text': "<p>A tea cup sits atop a wooden box full of tea. Looks like the teas are divided into <strong>black</strong>, <strong>green</strong>, and <strong>white</strong>. It smells very aromatic!</p>",
             'next_text': 'Continue Exploring',
+            'red_herring': true,
         }],
         '3812b5': [{
             'title': 'A handwritten note',
@@ -491,6 +499,7 @@ const discoveries = {
             'title': 'Scrap paper',
             'text': "<p>A scrap piece of paper. Might be nice for testing out a pen.</p>",
             'next_text': 'Continue Exploring',
+            'red_herring': true,
         }],
     },
     'bedroom': {
@@ -541,6 +550,7 @@ const discoveries = {
                 'title': 'Cozy bed',
                 'text': "<p>What a nicely made bed.</p>",
                 'next_text': "Continue Exploring",
+                'red_herring': true,
             },
         ],
         'ae00ff': [  // drawer
@@ -560,6 +570,7 @@ const discoveries = {
                 'title': 'Another locked drawer',
                 'text': "<p>This person seems to like locking everything down.</p><p>Time to look for another key...but where would it be?</p>",
                 'next_text': "Continue Exploring",
+                'red_herring': true,
             },
         ],
         '00eeff': [
@@ -567,6 +578,7 @@ const discoveries = {
                 'title': 'Cozy bed',
                 'text': "<p>What a nicely made bed.</p>",
                 'next_text': "Continue Exploring",
+                'red_herring': true,
             }
         ],
     },
@@ -641,11 +653,13 @@ const discoveries = {
             'title': 'Lamp',
             'text': "<p>A free standing lamp. Useful for reading all those books.</p>",
             'next_text': 'Continue Exploring',
+            'red_herring': true,
         }],
         '0030ff': [{
             'title': 'Tiny light',
             'text': "<p>Awww. It's so small!</p>",
             'next_text': 'Continue Exploring',
+            'red_herring': true,
         }],
     },
 }
@@ -672,20 +686,19 @@ const UNLOCKS = {
 };
 
 const ROOMS = ['secret', 'bedroom', 'library', 'foyer', 'study'];
-
+const CARDS = ['sun', 'tower', 'temperance', 'chariot'];
 
 // cookie helpers
 const COOKIE_NAME = 'game_data';
 
-function getCookie(key) {
-    let game_data = (Cookies.get(COOKIE_NAME) ? JSON.parse(Cookies.get(COOKIE_NAME)) : {});
-    return game_data[key];
+function getGameData() {
+    return (Cookies.get(COOKIE_NAME) ? JSON.parse(Cookies.get(COOKIE_NAME)) : {});
 }
 
 function setCookie(key, value) {
-    let game_data = (Cookies.get(COOKIE_NAME) ? JSON.parse(Cookies.get(COOKIE_NAME)) : {});
+    let game_data = getGameData();
     game_data[key] = value;
-    Cookies.set(COOKIE_NAME, JSON.stringify(game_data), { expires: 30 });
+    Cookies.set(COOKIE_NAME, JSON.stringify(game_data), { expires: 30, SameSite: 'strict' });
     return game_data[key];
 }
 
@@ -693,12 +706,45 @@ function resetGameData() {
     Cookies.remove(COOKIE_NAME);
 }
 
+function calculateUserDiscoveryUnlocks(room_name) {
+    let game_data = getGameData();
+    var this_room_seen = 0;
+    var this_room_total = 0;
+    var game_seen = 0;
+    var game_total = 0;
+    for(let room in discoveries){
+        if(discoveries.hasOwnProperty(room)){
+            for (let hash in discoveries[room]) {
+                if(discoveries[room].hasOwnProperty(hash)){
+                    let cookie_key = room + '_' + hash;
+                    game_total += 1;
+                    if (room == room_name) {
+                        this_room_total += 1;
+                        if (cookie_key in game_data) {
+                            this_room_seen += 1
+                        }
+                    }
+                    if (cookie_key in game_data) {
+                        game_seen += 1;
+                    }
+                }
+            }
+        }
+    }
+    let cards_unlocked = 0;
+    for (let i=0; i< CARDS.length; i++) {
+        let card = CARDS[i];
+        if (checkUserUnlock(card)) cards_unlocked += 1;
+    }
+    return [[this_room_seen, this_room_total], [game_seen, game_total], cards_unlocked];
+}
+
 function setUserUnlock(unlock_name) {
     setCookie(unlock_name, true);
 }
 
 function checkUserUnlock(unlock_name) {
-    return getCookie(unlock_name) === true;
+    return getGameData()[unlock_name] === true;
 }
 
 function setUserCompletePuzzle(puzzle_id) {
@@ -718,7 +764,7 @@ function setUserCompletePuzzle(puzzle_id) {
 }
 
 function checkUserCompletePuzzle(puzzle_id) {
-    return getCookie(puzzle_id) === true;
+    return getGameData()[puzzle_id] === true;
 }
 
 function do_unlock(room_name){
@@ -742,6 +788,28 @@ function updateMap(){
     // Highlights which room you are in
     // Renders/hides the tooltip
     // And shows clues
+    let room_name = $('img.click-map').attr('data-attribute');
+    let this_room_stats, total_stats, cards_unlocked;
+    [this_room_stats, total_stats, cards_unlocked] = calculateUserDiscoveryUnlocks(room_name);
+    if (total_stats[0] > 0) {
+        // Remove the first time tool tip if they've already been exploring
+        $('#map').children('div.tip').remove();
+    }
+    $('div.nav-map').append('<div class="inventory"></div>');
+    let card_text = '';
+    if (cards_unlocked > 0) {
+        let out_of = (cards_unlocked == CARDS.length ? CARDS.length : '?');
+        card_text = cards_unlocked+'/'+out_of+' tarot cards</br>'
+    }
+    $('div.inventory').append(
+        ('<p><strong>Discoveries:</strong><br />This room: ' + 
+            this_room_stats[0] + '/' + this_room_stats[1] + '<br \>' +
+            'Total:'+ total_stats[0] + '/' + total_stats[1]+ '<br \>' +
+            card_text + '</p>'
+        )
+    );
+    // Do the map unlocks
+    unlockMapSections();
 }
 
 
@@ -760,37 +828,35 @@ $( document ).ready(function() {
     $('a[href*=map]').click(function() {
         $( "#map" ).dialog( "open" );
     });
+    updateMap();
 
-    unlockMapSections();
-
-    if ($('img.click-map')) {
+    if ($('img.click-map').length) {
         clickMap($('img.click-map').attr('data-attribute'));
         populateDiscoveries($('img.click-map').attr('data-attribute'));
     }
 
-    // Attach relevant segments to the puzzles!
-    if($("#1").length){
-        attachPuzzle1();
-        toggleButtonLock($('.button'));
-    }
-    if($("#2").length){
-        attachPuzzle2();
-        toggleButtonLock($('.button'));
-    }
-    if($("#3").length){
-        attachPuzzle3();
-        toggleButtonLock($('.button'));
-    }
-    if($("#4").length){
-        attachPuzzle4();
-        toggleButtonLock($('.button'));
-    }
-    if($("#5").length){
-        attachPuzzle5();
-        toggleButtonLock($('.button'));
-    }
-    if($("#7").length){
-        attachPuzzle7();
-        toggleButtonLock($('.button'));
+    let puzzle_fns = {
+        1 : attachPuzzle1,
+        2 : attachPuzzle2,
+        3 : attachPuzzle3,
+        4 : attachPuzzle4,
+        5 : attachPuzzle5,
+        // 6 is TODO
+        7 : attachPuzzle7,
+        // 8 is TODO
+        // 9 is TODO
+
+    };
+    for(let puzzle_id in puzzle_fns){
+        if(puzzle_fns.hasOwnProperty(puzzle_id)){
+            if($("#"+puzzle_id).length){
+                puzzle_fns[puzzle_id](); // this is the call to "attach"
+                toggleButtonLock($('.button'));
+                if (checkUserCompletePuzzle(puzzle_id)) {
+                    // Let the user advance without re-solving the puzzle it they've already solved it
+                    toggleButtonLock($('.button'));
+                }
+            }
+        }
     }
 });

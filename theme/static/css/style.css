@@ -125,6 +125,13 @@ div.button {
     color: #444;
 }
 
+div.inventory > p {
+    text-align: left;
+    color: #fff;
+    padding: 15%;
+    line-height: 1.5em;
+}
+
 
 h1 {
 
