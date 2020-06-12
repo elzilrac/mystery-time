@@ -320,6 +320,7 @@ function pickDiscovery(room_name, hex) {
         // Keep track of discoveries discovered
         if (discovery['red_herring'] != true) {
             setUserUnlock(room_name + '_' + hex);
+            updateMap();
         }
         // Open the dialog
         $( "#"+hex+'_'+i ).dialog( "open" );
@@ -795,7 +796,7 @@ function updateMap(){
         // Remove the first time tool tip if they've already been exploring
         $('#map').children('div.tip').remove();
     }
-    $('div.nav-map').append('<div class="inventory"></div>');
+    $('div.inventory').replaceWith('<div class="inventory"></div>');
     let card_text = '';
     if (cards_unlocked > 0) {
         let out_of = (cards_unlocked == CARDS.length ? CARDS.length : '?');
@@ -808,8 +809,6 @@ function updateMap(){
             card_text + '</p>'
         )
     );
-    // Do the map unlocks
-    unlockMapSections();
 }
 
 
@@ -829,6 +828,7 @@ $( document ).ready(function() {
         $( "#map" ).dialog( "open" );
     });
     updateMap();
+    unlockMapSections();
 
     if ($('img.click-map').length) {
         clickMap($('img.click-map').attr('data-attribute'));
